@@ -8,7 +8,7 @@ import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 
 
-mongoose.connect('mongodb+srv://lakshya:lakshya@cluster0.nqysbfw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',{useNewUrlParser:true, useUnifiedTopology: true});
+mongoose.connect('mongodb+srv://lakshya:lakshya@cluster0.nqysbfw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
 mongoose.connection.on('error',err=>{
   console.log('connection failed');
 });
