@@ -60,9 +60,8 @@ Engage in discussions and share ideas with fellow students on sustainability top
 
 ## Screenshots
 
-![Screenshot 1](./screenshots/screenshot1.png)
-![Screenshot 2](./screenshots/screenshot2.png)
-![Screenshot 3](./screenshots/screenshot3.png)
+![image](https://github.com/lakshyeahh/Final-Green/assets/121057440/09a8d115-6276-4f78-a5ea-d93cacb1e964)
+
 
 ---
 
