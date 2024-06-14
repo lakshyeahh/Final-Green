@@ -3,6 +3,8 @@ const app = express();
 import router from './routes/index.js';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import bodyParser from 'body-parser';
+
 import dotenv from 'dotenv';
 
 
@@ -16,15 +18,12 @@ mongoose.connection.on('connected',()=>{
 
 dotenv.config();
 
-app.use(express.json())
+app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.json());
 
-app.use(cors({
-  origin: ["https://green-project-haii-qk52js99v-lakshyeahhs-projects.vercel.app"],
-  methods: ["POST", "GET", "PUT", "PATCH", 'DELETE'],
-  credentials: false
-}));
+app.use(cors());
 
-app.get("*", (req, res) => {
+app.get("*", (req, res,next) => {
   res.status(200).json({
     message: "Hello"
   })
