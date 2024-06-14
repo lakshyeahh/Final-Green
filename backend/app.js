@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 
-import dotenv from 'dotenv';
+
 
 
 mongoose.connect('mongodb+srv://lakshya:lakshya@cluster0.nqysbfw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
@@ -16,7 +16,7 @@ mongoose.connection.on('connected',()=>{
   console.log('connected successfully with database');
 });
 
-dotenv.config();
+
 
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
