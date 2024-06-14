@@ -21,10 +21,10 @@ app.use(express.json())
 app.use(cors({
   origin: ["https://green-project-haii-qk52js99v-lakshyeahhs-projects.vercel.app"],
   methods: ["POST", "GET", "PUT", "PATCH", 'DELETE'],
-  credentials: true
+  credentials: false
 }));
 
-app.get("*", (req, res,next) => {
+app.get("*", (req, res) => {
   res.status(200).json({
     message: "Hello"
   })
