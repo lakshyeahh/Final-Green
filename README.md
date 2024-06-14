@@ -1,7 +1,3 @@
-Certainly! Here's a structured outline for your README file on GitHub for the project "Green":
-
----
-
 # Green
 
 ## Table of Contents
@@ -108,5 +104,3 @@ Contributions are welcome! To contribute to **Green**, follow these steps:
 This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
 
 ---
-
-Feel free to customize the sections further based on specific functionalities or aspects of your project. Include actual screenshots (replace `./screenshots/screenshot1.png`, etc., with your actual screenshot paths) to provide visual representation of your application in action. This README structure should help users understand the purpose, features, and usage of your "Green" project effectively.
