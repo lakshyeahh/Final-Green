@@ -1,0 +1,46 @@
+/* MyPrintList.css */
+
+  /* footprint.css */
+
+.container {
+    color: black;
+    padding: 20px;
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: rgb(225, 223, 223);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    
+  }
+  
+  .error {
+    color: red;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .data-list-root {
+    margin-bottom: 20px;
+    color: black;
+  }
+  
+  .data-list-header {
+    text-align: center;
+    background-color: greenyellow;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .data-list-item {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .responsive-container {
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
