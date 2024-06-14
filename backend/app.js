@@ -2,7 +2,7 @@ import express from 'express';
 const app = express();
 import router from './routes/index.js';
 import mongoose from 'mongoose';
-import cors from 'cors';
+
 import bodyParser from 'body-parser';
 
 
@@ -21,7 +21,7 @@ mongoose.connection.on('connected',()=>{
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
-app.use(cors());
+
 
 app.get("*", (req, res,next) => {
   res.status(200).json({
