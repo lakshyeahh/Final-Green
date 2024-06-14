@@ -4,9 +4,9 @@ import router from './routes/index.js';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import router from './routes/index.js';
 
-mongoose.connect(process.env.MONGO_URI,{useNewUrlParser:true, useUnifiedTopology: true});
+
+mongoose.connect('mongodb+srv://lakshya:lakshya@cluster0.nqysbfw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',{useNewUrlParser:true, useUnifiedTopology: true});
 mongoose.connection.on('error',err=>{
   console.log('connection failed');
 });
