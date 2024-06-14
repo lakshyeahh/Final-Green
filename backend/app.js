@@ -2,7 +2,7 @@ import express from 'express';
 const app = express();
 import router from './routes/index.js';
 import mongoose from 'mongoose';
-
+import cors from 'cors';
 import bodyParser from 'body-parser';
 
 
@@ -16,7 +16,7 @@ mongoose.connection.on('connected',()=>{
   console.log('connected successfully with database');
 });
 
-
+app.use(cors());
 
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
