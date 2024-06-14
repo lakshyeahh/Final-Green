@@ -18,7 +18,11 @@ dotenv.config();
 
 app.use(express.json())
 
-app.use(cors());
+app.use(cors({
+  origin: ["https://green-project-haii-qk52js99v-lakshyeahhs-projects.vercel.app"],
+  methods: ["POST", "GET", "PUT", "PATCH", 'DELETE'],
+  credentials: true
+}));
 
 app.get("*", (req, res,next) => {
   res.status(200).json({
