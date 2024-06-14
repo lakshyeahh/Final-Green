@@ -7,6 +7,7 @@ import router from './routes/index.js';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors'
+import http from 'http'
 
 
 
@@ -31,14 +32,16 @@ app.get("/", (req, res) => {
 app.use('/api', router)
 
 
-mongoose.connect(mongodb+srv://lakshya:lakshya@cluster0.nqysbfw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0)
-  .then(() => {
-    console.log('connected to database')
-    // listen to port
-    app.listen(PORT, () => {
-      console.log('listening for requests on port', PORT)
-    })
-  })
-  .catch((err) => {
-    console.log(err)
-  }) 
+mongoose.connect('mongodb+srv://lakshya:lakshya@cluster0.nqysbfw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
+
+
+mongoose.connection.on('error',err=>{
+  console.log('connection failed');
+});
+
+mongoose.connection.on('connected',()=>{
+  console.log('connected successfully with database');
+});
+
+const server = http.createServer(app);
+server.listen(PORT,()=>{console.log('this app is running on '+PORT)});
