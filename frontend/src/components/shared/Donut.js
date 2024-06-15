@@ -10,7 +10,7 @@ function Donut() {
       try {
         const token = localStorage.getItem('accessToken');
 
-        const response = await fetch('/api/carbon-footprint/contribution', {
+        const response = await fetch(`${process.env.REACT_APP_URL}/api/carbon-footprint/contribution`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`
