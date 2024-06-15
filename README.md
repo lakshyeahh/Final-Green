@@ -1,70 +1,106 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Green
 
-## Available Scripts
+## Table of Contents
 
-In the project directory, you can run:
+1. [Introduction](#introduction)
+2. [Features](#features)
+   - [Challenges](#challenges)
+   - [Events](#events)
+   - [Resources](#resources)
+   - [Points, Badges, and Leaderboard](#points-badges-and-leaderboard)
+   - [Carbon Footprint Calculator and Analytics](#carbon-footprint-calculator-and-analytics)
+   - [Waste Management Points Map](#waste-management-points-map)
+   - [Public Forum](#public-forum)
+3. [Screenshots](#screenshots)
+4. [Installation](#installation)
+5. [Usage](#usage)
+6. [Contributing](#contributing)
+7. [License](#license)
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Introduction
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+**Green** is a web application designed to increase sustainable awareness and activities among college students. It provides a platform where users can engage in eco-friendly challenges, participate in relevant college events, access educational resources about sustainability, and earn rewards through points, badges, and rankings. Additionally, the application features tools like a carbon footprint calculator, waste management points map, and a public forum for students to discuss environmental issues.
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Features
 
-### `npm run build`
+### Challenges
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Users can take part in challenges aimed at promoting eco-friendly behaviors and practices.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Events
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Stay updated with upcoming events around the college focused on sustainability initiatives.
 
-### `npm run eject`
+### Resources
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Access educational materials and resources to enhance knowledge about environmental awareness.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Points, Badges, and Leaderboard
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Earn points and badges by completing challenges and participating actively. Track your progress and compete on the leaderboard.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Carbon Footprint Calculator and Analytics
 
-## Learn More
+Calculate your carbon footprint and gain insights into how daily choices impact the environment.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Waste Management Points Map
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+View and contribute to waste management points across the college campus through an interactive map display.
 
-### Code Splitting
+### Public Forum
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Engage in discussions and share ideas with fellow students on sustainability topics through the public forum.
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Screenshots
 
-### Making a Progressive Web App
+![image](https://github.com/lakshyeahh/Final-Green/assets/121057440/09a8d115-6276-4f78-a5ea-d93cacb1e964)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Advanced Configuration
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Installation
 
-### Deployment
+To install and run **Green** locally, follow these steps:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+1. Clone the repository: `git clone https://github.com/your/repository.git`
+2. Navigate to the project directory: `cd green`
+3. Install dependencies: `npm install`
+4. Start the development server: `npm start`
 
-### `npm run build` fails to minify
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Usage
+
+1. Register or log in to your account.
+2. Explore challenges, events, resources, and forums.
+3. Participate in challenges to earn points and badges.
+4. Use the carbon footprint calculator to track your environmental impact.
+5. Interact with waste management points on the map.
+6. Engage in discussions on the public forum.
+
+---
+
+## Contributing
+
+Contributions are welcome! To contribute to **Green**, follow these steps:
+
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature/your-feature`).
+3. Commit your changes (`git commit -am 'Add new feature'`).
+4. Push to the branch (`git push origin feature/your-feature`).
+5. Create a new Pull Request.
+
+---
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
+
+---
