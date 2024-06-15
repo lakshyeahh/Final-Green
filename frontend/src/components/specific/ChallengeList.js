@@ -17,7 +17,7 @@ function ChallengeList() {
 
     const fetchChallenges = async () => {
         try {
-            const response = await fetch(`${process.env.REACT_APP_URL}/api/challenges`);
+            const response = await fetch('https://final-green-api.vercel.app/api/challenges');
 
             if (!response.ok) {
                 throw new Error('Failed to fetch challenges data');
