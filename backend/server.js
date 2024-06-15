@@ -14,8 +14,7 @@ import http from 'http'
 dotenv.config();
 app.use(cors(
   {
-      origin: ["https://deploy-mern-frontend.vercel.app"],
-      methods: ["POST", "GET", "PUT", "PATCH", 'DELETE'],
+      origin: ["https://final-green-app.vercel.app"],
       credentials: true
   }
 ));
