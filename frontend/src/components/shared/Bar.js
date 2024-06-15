@@ -11,7 +11,7 @@ function Bar() {
             try {
                 const token = localStorage.getItem('accessToken');
 
-                const response = await fetch('/api/carbon-footprint/compare', {
+                const response = await fetch(`${process.env.REACT_APP_URL}/api/carbon-footprint/compare`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`
