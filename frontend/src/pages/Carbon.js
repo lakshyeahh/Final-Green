@@ -48,7 +48,7 @@ function Carbon() {
           throw new Error('Access token not found');
         }
 
-        const response = await fetch('/api/users', {
+        const response = await fetch(`${process.env.REACT_APP_URL}/api/users`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`
@@ -80,7 +80,7 @@ function Carbon() {
       }
 
       try {
-        const response = await fetch('/api/carbon-footprint/recent', {
+        const response = await fetch(`${process.env.REACT_APP_URL}/api/carbon-footprint/recent`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -109,7 +109,7 @@ function Carbon() {
 
 
 
-        const response = await fetch('/api/events', {
+        const response = await fetch(`${process.env.REACT_APP_URL}/api/events`, {
           method: 'GET',
           headers: {
             'Content': `application/json`
