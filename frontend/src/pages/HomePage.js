@@ -24,7 +24,7 @@ function HomePage() {
           throw new Error('Access token not found');
         }
 
-        const response = await fetch(`${process.env.REACT_APP_URL}/api/users`, {
+        const response = await fetch('https://final-green-api.vercel.app/api/users', {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`
