@@ -6,7 +6,7 @@ function ResourceList() {
   useEffect(() => {
     const fetchResources = async () => {
       try {
-        const response = await fetch('/api/education/resources');
+        const response = await fetch(`${process.env.REACT_APP_URL}/api/education/resources`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
