@@ -31,7 +31,7 @@ function Dashboard() {
           throw new Error('Access token not found');
         }
 
-        const response = await fetch('/api/users', {
+        const response = await fetch(`${process.env.REACT_APP_URL}/api/users`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`
@@ -59,7 +59,7 @@ function Dashboard() {
           throw new Error('Access token not found');
         }
 
-      const response = await fetch('/api/logout', {
+      const response = await fetch(`${process.env.REACT_APP_URL}/api/logout`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
