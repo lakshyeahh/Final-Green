@@ -11,7 +11,7 @@ function Linechart() {
       try {
         const token = localStorage.getItem('accessToken');
         // Replace with your actual API endpoint
-        const response = await fetch('/api/carbon-footprint/historical', {
+        const response = await fetch(`${process.env.REACT_APP_URL}/api/carbon-footprint/historical`, {
             method: 'GET',
             headers: {
               'Authorization': `Bearer ${token}`
