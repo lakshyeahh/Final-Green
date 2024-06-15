@@ -7,7 +7,7 @@ function Notification() {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const response = await fetch('/api/notifications');
+        const response = await fetch(`${process.env.REACT_APP_URL}/api/notifications`);
         if (!response.ok) {
           throw new Error('Failed to fetch notifications');
         }
