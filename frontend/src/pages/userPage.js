@@ -15,7 +15,7 @@ function UserPage() {
           throw new Error('Access token not found');
         }
 
-        const response = await fetch('/api/me', {
+        const response = await fetch(`${process.env.REACT_APP_URL}/api/me`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`
