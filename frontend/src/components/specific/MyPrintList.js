@@ -11,7 +11,7 @@ function MyPrintList({ authToken }) {
   useEffect(() => {
     const fetchCarbonPrint = async () => {
       try {
-        const response = await fetch('/api/carbon-footprint/', {
+        const response = await fetch(`${process.env.REACT_APP_URL}/api/carbon-footprint/`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${authToken}`,
