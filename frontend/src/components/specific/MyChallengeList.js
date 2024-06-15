@@ -46,7 +46,7 @@ function MyChallengeList({userData}) {
       try {
         const challengeDetails = await Promise.all(
           userData.activeChallenges.map(async (challengeId) => {
-            const response = await fetch(`/api/challenges/${challengeId}`);
+            const response = await fetch(`${process.env.REACT_APP_URL}/api/challenges/${challengeId}`);
             if (!response.ok) {
               throw new Error('Failed to fetch challenge details');
             }
@@ -74,7 +74,7 @@ function MyChallengeList({userData}) {
       try {
         const challengeDetails = await Promise.all(
           userData.completedChallenges.map(async (challengeId) => {
-            const response = await fetch(`/api/challenges/${challengeId}`);
+            const response = await fetch(`${process.env.REACT_APP_URL}/api/challenges/${challengeId}`);
             if (!response.ok) {
               throw new Error('Failed to fetch challenge details');
             }
