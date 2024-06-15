@@ -98,7 +98,7 @@ const EMISSION_FACTORS = {
         const sendCarbonData = async () => {
             if (token) {
                 try {
-                  const response = await fetch('/api/carbon-footprint', {
+                  const response = await fetch(`${process.env.REACT_APP_URL}/api/carbon-footprint`, {
                     method: 'POST',
                     headers: {
                       'Content-Type': 'application/json',
