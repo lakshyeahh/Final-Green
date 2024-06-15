@@ -114,7 +114,7 @@ const NavigationMenuDemo = ({ userData}) => {
           </NavigationMenu.Item>
 
           <NavigationMenu.Item>
-            <NavigationMenu.Link className="NavigationMenuLink" href="https://github.com/radix-ui">
+            <NavigationMenu.Link className="NavigationMenuLink" href="https://github.com/lakshyeahh/Final-Green">
               Github
             </NavigationMenu.Link>
           </NavigationMenu.Item>
