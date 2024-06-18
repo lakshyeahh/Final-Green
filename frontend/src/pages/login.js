@@ -71,8 +71,8 @@ function Login() {
           alignItems: 'center',
         }}
       >
-        <Flex flexShrink="0" gap="6" direction="column" width="416px" style={{ margin: 'auto', marginTop: '80px' }}>
-          <Card size="4">
+        <Flex flexShrink="0" className='w-full' direction="column"  style={{ justifyContent:'center', alignItems: 'center' }}>
+          <Card size="4" className=' w-full md:w-1/3 -mt-32'>
             <form onSubmit={handleSubmit}>
               <Heading as="h3" size="6" trim="start" mb="5">
                 Login

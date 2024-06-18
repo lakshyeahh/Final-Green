@@ -9,13 +9,18 @@
   .her-heading{
     font-size: 60px;
   }
-
-  .twooooo{
-    display: block  ;
-    font-size: 65px;
+  .twooooo {
+    display: block;
+    font-size: 65px; /* Default font size */
     font-family: "Angkor", serif;
     font-weight: 400;
     font-style: normal;
+  }
+  
+  @media (max-width: 768px) {
+    .twooooo {
+      font-size: 44px; /* Smaller font size for mobile */
+    }
   }
   
   .tile {
@@ -29,3 +34,5 @@
   .tile-content {
     font-size: 1.2em;
   }
+
+  

@@ -100,125 +100,74 @@ function MyChallengeList({userData}) {
     return <p>Error: {error}</p>;
   }
   return (
-    <div>
-    <div className="overflow-x-auto m-6 rounded-xl shadow-lg">
-      <table className="table">
+    <div >
+      <section class="text-gray-600 body-font">
+       
+  <div class="  py-20 mx-auto">
+  <h2 className='mb-10 text-xl md:text-2xl font-medium md:font-bold '>Active Challenges</h2>
+    <div class="w-full mx-auto overflow-auto">
+      <table class="table-auto w-full text-left whitespace-no-wrap">
         <thead>
-          <tr className='bg-pink-100'>
-            <th>
-              <label>
-                <input type="checkbox" className="checkbox bg-white" />
-              </label>
-            </th>
-            <th className='text-pink-700'>Challenge</th>
-            <th className='text-pink-700'>Points</th>
-            <th className='text-pink-700'>End Date</th>
-            <th className='text-pink-700'>Complete</th>
-            <th className='text-pink-700'>Progress</th>
+          <tr>
+            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-green-100 rounded-tl rounded-bl">Challenge</th>
+            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-green-100">Points</th>
+            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-green-100">End Date</th>
+            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-green-100">Complete</th>
+            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-green-100">Progress</th>
+          
           </tr>
         </thead>
         <tbody>
-          {challenges.map((challenge, index) => (
-            <tr key={challenge._id}>
-              <th>
-                <label>
-                  <input type="checkbox" className="checkbox" />
-                </label>
-              </th>
-              <td>
-                <div className="flex items-center gap-3">
-                  <div className="avatar"></div>
-                  <div>
-                    <div className="font-bold">{challenge.title}</div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                {challenge.points}
-              </td>
-              <td>{new Date(challenge.endDate).toLocaleDateString()}</td>
-              <th>
-                <button className="btn btn-ghost btn-xs">details</button>
-              </th>
-              <th>
-                <div className="radial-progress text-primary text-xs w-10 h-10" style={{ "--value": challenge.progress }} role="progressbar">
-                  {challenge.progress}%
-                </div>
-              </th>
-            </tr>
-          ))}
-        </tbody>
-        <tfoot>
-          <tr>
-            <th></th>
-            <th>Challenge</th>
-            <th>Points</th>
-            <th>End Date</th>
-            <th>Complete</th>
-            <th>Progress</th>
+        {challenges.map((challenge, index) => (
+           <tr key={challenge._id}>
+            <td class="px-4 py-3">{challenge.title}</td>
+            <td class="px-4 py-3"> {challenge.points}</td>
+            <td class="px-4 py-3">{new Date(challenge.endDate).toLocaleDateString()}</td>
+            
+            <td class="px-4 py-3 text-lg text-gray-900"> <progress className="progress progress-accent w-20" value={challenges.progress} ></progress></td>
+            <td class="px-4 py-3 text-lg text-gray-900"><a>Details</a></td>
           </tr>
-        </tfoot>
+               ))}
+        </tbody>
       </table>
     </div>
-  <div className="overflow-x-auto m-6 rounded-xl shadow-lg">
-  <table className="table">
-        <thead>
-          <tr className='bg-green-100'>
-            <th>
-              <label>
-                <input type="checkbox" className="checkbox bg-white" />
-              </label>
-            </th>
-            <th className='text-green-700'>Challenge</th>
-            <th className='text-green-700'>Points</th>
-            <th className='text-green-700'>End Date</th>
-            <th className='text-green-700'>Complete</th>
-            <th className='text-green-700'>Progress</th>
-          </tr>
-        </thead>
-        <tbody>
-          {completedChallenges.map((challenge, index) => (
-            <tr key={challenge._id}>
-              <th>
-                <label>
-                  <input type="checkbox" className="checkbox" />
-                </label>
-              </th>
-              <td>
-                <div className="flex items-center gap-3">
-                  <div className="avatar"></div>
-                  <div>
-                    <div className="font-bold">{challenge.title}</div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                {challenge.points}
-              </td>
-              <td>{new Date(challenge.endDate).toLocaleDateString()}</td>
-              <th>
-                <button className="btn btn-ghost btn-xs">details</button>
-              </th>
-              <th>
-                <div className="radial-progress text-primary text-xs w-10 h-10" style={{ "--value": challenge.progress }} role="progressbar">
-                  {challenge.progress}%
-                </div>
-              </th>
-            </tr>
-          ))}
-        </tbody>
-        <tfoot>
-          <tr>
-            <th></th>
-            <th>Challenge</th>
-            <th>Points</th>
-            <th>End Date</th>
-            <th>Complete</th>
-            <th>Progress</th>
-          </tr>
-        </tfoot>
-      </table>
-</div>
+    
+  </div>
+</section>
+<section class="text-gray-600 body-font">
+       
+       <div class="   mx-auto">
+       <h2 className='mb-10 text-xl md:text-2xl font-medium md:font-bold '>Completed Challenges</h2>
+         <div class="w-full mx-auto overflow-auto">
+           <table class="table-auto w-full text-left whitespace-no-wrap">
+             <thead>
+               <tr>
+                 <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-emerald-500 rounded-tl rounded-bl">Challenge</th>
+                 <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-emerald-500">Points</th>
+                 <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-emerald-500">End Date</th>
+                 <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-emerald-500">Complete</th>
+                 <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-emerald-500">Progress</th>
+               
+               </tr>
+             </thead>
+             <tbody>
+             {completedChallenges.map((challenge, index) => (
+                <tr key={challenge._id}>
+                 <td class="px-4 py-3">{challenge.title}</td>
+                 <td class="px-4 py-3"> {challenge.points}</td>
+                 <td class="px-4 py-3">{new Date(challenge.endDate).toLocaleDateString()}</td>
+                 
+                 <td class="px-4 py-3 text-lg text-gray-900"> <progress className="progress progress-accent w-20" value={100} ></progress></td>
+                 <td class="px-4 py-3 text-lg text-gray-900"><a className='hover:bg-gray-200 px-5 py-2 rounded-xl'>Details</a></td> 
+               </tr>
+                    ))}
+             </tbody>
+           </table>
+         </div>
+         
+       </div>
+     </section>
+
 </div>
 
   )

@@ -275,17 +275,6 @@ p {
   border-top-left-radius: 2px;
 }
 
-.login-button{
-  background-color: white;
-  border-radius: 20px;
-  border: 2px solid white;
-  color: black;
-  transform: translate(200px);
-  transition: 0.3;
-}
-.login-button:hover{
-  transform: scale(1.07);
-}
 
 
 

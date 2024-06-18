@@ -7,6 +7,7 @@ import { Flex, Badge } from '@radix-ui/themes';
 import user from '../Media/user.png'
 import bkg from '../Media/background.png';
 import Sidebar from '../components/shared/Sidebar';
+import DownBar from '../components/shared/DownBar';
 
 
 const drawerWidth = 240;
@@ -88,17 +89,18 @@ function Challenge() {
     
     
   return (
-    <div className="flex flex-col   ">
-    <header className="  ">
-      <NavigationMenuDemo userData={userData} />
-    </header>
-    <div className="flex flex-1 ">
-      <aside className=" ">
-        <Sidebar userData={userData} />
-      </aside>
-      <section className="">
-      <Box className='mx-9'>
-    <Toolbar /> 
+  
+  <div className="flex flex-col min-h-screen">
+  <header>
+    <NavigationMenuDemo userData={userData} />
+  </header>
+  <div className="flex flex-1">
+    <aside className="hidden lg:block w-1/8">
+      <Sidebar userData={userData} />
+    </aside>
+    <section className="w-full px-3 md:px-10 py-5 md:py-10">
+    <Box className=''>
+  
     <div className=' bg-gradient-to-tr from-blue-500 to-teal-300 p-2 rounded-2xl' >
       <div className=' bg-white to-pink-300 p-4 rounded-2xl'>
 
@@ -154,7 +156,7 @@ Check out the exciting challenges below and start your journey towards personal 
     
 
 <section class="text-gray-600 body-font overflow-hidden">
-<div class=" px-5 py-24 mx-auto">
+<div class=" py-24 mx-auto">
 <div class="flex flex-wrap  gap-6">
 {challenges.map((challenge, index) => (
  <div key={index} class="p-8 md:w-[calc(50%-1.5rem)] flex flex-col items-start bg-gradient-to-br from-green-50 via-green-100 
@@ -198,9 +200,13 @@ Check out the exciting challenges below and start your journey towards personal 
 </section>
    
   </Box>
-      </section>
-    </div>
+    </section>
   </div>
+  <div className="md:hidden fixed bottom-0 w-full">
+    <DownBar />
+  </div>
+</div>
+
 
   );
 }

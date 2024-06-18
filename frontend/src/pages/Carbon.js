@@ -20,6 +20,7 @@ import c4 from '../Media/c4.png'
 import Linechart from '../components/shared/LineChart';
 import Donut from '../components/shared/Donut';
 import Bar from '../components/shared/Bar';
+import DownBar from '../components/shared/DownBar';
 
 
 const drawerWidth = 240;
@@ -141,20 +142,22 @@ function Carbon() {
 
 
   return (
-    <div className="flex flex-col   ">
-      <header className="  ">
-        <NavigationMenuDemo userData={userData} />
-      </header>
-      <div className="flex flex-1 ">
-        <aside className=" ">
-          <Sidebar userData={userData} />
-        </aside>
-        <section className="">
-          <Box className='mx-9 '>
+
+
+<div className="flex flex-col min-h-screen">
+  <header>
+    <NavigationMenuDemo userData={userData} />
+  </header>
+  <div className="flex flex-1">
+    <aside className="hidden lg:block w-1/8">
+      <Sidebar userData={userData} />
+    </aside>
+    <section className="w-full px-3 md:px-10 py-2 md:py-10">
+    <Box className=''>
             <div className=''>
 
 
-              <div className='flex justify-between items-center m-9 '>
+              <div className='flex justify-between items-center my-7'>
                 <h1 className='font-bold text-3xl '>Your footprint</h1>
                 <Link to='/carbon-footprint/new'>
                   <Button color='lime' className='hover:scale-105' > Calculate CF</Button>
@@ -167,9 +170,13 @@ function Carbon() {
 
 
               {carbonFootprint && (
-                <div className='flex bg-sky-100 py-10 px-10 border-2 border-blue-700 rounded-xl items-center -mb-10 shadow-lg '>
-
-                  <div className='relative w-1/3 bg-gradient-to-t from-purple-500 to-pink-300 rounded-2xl p-4 overflow-hidden '>
+                
+                <div className='flex bg-sky-100 py-10 px-5 border-2 border-blue-700 rounded-xl items-center -mb-10 shadow-lg '>
+                       <section class="text-gray-600 body-font w-full">
+                    <div class="  mx-auto">
+                      <div class="flex flex-wrap  text-center">
+                      <div class=" md:w-1/4 sm:w-1/2 w-full">
+                      <div className='relative  bg-gradient-to-t from-purple-500 to-pink-300 rounded-2xl p-4 overflow-hidden '>
                     <img src={nature} className='absolute top-0 left-0 w-full h-full object-cover rounded-2xl opacity-90' alt="Nature" />
                     <div className='absolute bottom-0 left-0 transform -translate-x-1/2 translate-y-1/2 bg-white opacity-50 rounded-full' style={{ width: '300px', height: '300px' }}></div>
                     <div className='relative z-10'>
@@ -195,11 +202,7 @@ function Carbon() {
                       </div>
                     </div>
                   </div>
-
-                  <section class="text-gray-600 body-font w-full">
-                    <div class=" pl-10  mx-auto">
-
-                      <div class="flex flex-wrap -m-4 text-center">
+                        </div>
                         <div class=" md:w-1/4 sm:w-1/2 w-full">
                           <div class="border-4 border-blue-200 bg-white px-4 py-6 rounded-xl">
 
@@ -216,7 +219,7 @@ function Carbon() {
                             <p class="leading-relaxed">Diet</p>
                           </div>
                         </div>
-                        <div class=" md:w-1/4 sm:w-1/2 w-sm">
+                        <div class=" md:w-1/4 sm:w-1/2 w-full">
                           <div class="border-4 border-blue-200  bg-white px-4 py-6 rounded-xl">
                             <img src={c3} class="w-12 h-12 mb-3 inline-block" alt="Descriptive Alt Text" />
                             <h2 class="title-font font-medium text-3xl text-gray-900">{carbonFootprint.energyUsage.toFixed(2)}</h2>
@@ -241,7 +244,7 @@ function Carbon() {
 
               <div class=" px-5 py-24 mx-auto " >
 
-                <h1 className='text-2xl font-medium  text-sky-300'>
+                <h1 className='text-2xl font-medium  text-sky-300 mb-10'>
                   Red<span className='text-sky-400'>uce</span> <span className='text-sky-500'>yo</span><span className='text-sky-600'>ur</span> <span className='text-sky-700'>CF</span>
                 </h1>
 
@@ -308,13 +311,13 @@ function Carbon() {
                 </div>
               </div>
             </section>
-            <h1 className='text-2xl font-bold font-medium mx-11 text-sky-300 text-left'>
+   
+
+            <section className=' px-5 py-20 -mx-10 mb-20 mx-auto   ' >
+            <h1 className='text-2xl font-bold font-medium  text-sky-300 text-left'>
               An<span className='text-sky-400'>al</span><span className='text-sky-500'>yt</span><span className='text-sky-600'>ic</span><span className='text-sky-700'>s</span>
             </h1>
-
-            <section className=' px-5 py-20 -mx-10 mb-20 mx-auto   ' style={{ background: 'linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(83,167,237,1) 46%, rgba(115,155,240,1) 56%, rgba(147,165,243,1) 66%, rgba(255,255,255,1) 100%)' }}>
-
-              <div className='flex flex-wrap gap-6 justify-center '>
+              <div className='flex flex-wrap gap-6 justify-center ' style={{ background: 'linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(83,167,237,1) 46%, rgba(115,155,240,1) 56%, rgba(147,165,243,1) 66%, rgba(255,255,255,1) 100%)' }} >
 
 
 
@@ -342,9 +345,13 @@ function Carbon() {
 
 
           </Box>
-        </section>
-      </div>
-    </div>
+    </section>
+  </div>
+  <div className="md:hidden fixed bottom-0 w-full">
+    <DownBar />
+  </div>
+</div>
+
 
 
 

@@ -5,12 +5,10 @@ function UserData({userData}) {
         return null;
     }
     return (
-<div className="stats shadow bg-gray-300 w-full h-40 m-6">
+<div className="stats-vetical w-full lg:stats shadow bg-gray-300  md:h-40 ">
   
-  <div className="stat bg-white">
-    <div className="stat-figure text-secondary">
-      
-    </div>
+  <div className="stat bg-white ">
+    
     {userData.points && (
         <div>
           <div className="stat-title font-bold text-purple-500">Points</div>

@@ -10,6 +10,7 @@ import userImage from '../Media/user.png'
 import rank_1 from '../Media/one.png';
 import rank_2 from '../Media/two.png';
 import rank_3 from '../Media/three.png';
+import DownBar from '../components/shared/DownBar'
 
 import Sidebar from '../components/shared/Sidebar'
 
@@ -103,27 +104,28 @@ useEffect(() => {
   return (
 
 
-    <div className="flex flex-col   ">
-      <header className="  ">
-        <NavigationMenuDemo userData={userData} />
-      </header>
-      <div className="flex flex-1 ">
-        <aside className=" ">
-          <Sidebar userData={userData} />
-        </aside>
-        <section className="">
-          <div className='px-10'>
+    <div className="flex flex-col min-h-screen">
+    <header>
+      <NavigationMenuDemo userData={userData} />
+    </header>
+    <div className="flex flex-1">
+      <aside className="hidden lg:block w-1/8">
+        <Sidebar userData={userData} />
+      </aside>
+      <section className="w-full  ">
+      <section className="">
+          <div className=''>
 
 
             <section class="text-gray-600 body-font">
               <div class=" px-5 py-10 mx-auto">
                 <div className="flex flex-wrap w-full mb-5 flex-col items-start text-left"> {/* Change items-center to items-start and text-center to text-left */}
-                  <h1 className="sm:text-3xl text-2xl font-bold title-font mb-2 text-gray-900 ml-6">Leaderboard</h1> {/* Add ml-6 class to move the heading to the left */}
+                  <h1 className="sm:text-3xl text-2xl font-bold title-font mb-2 text-gray-900 ">Leaderboard</h1> {/* Add ml-6 class to move the heading to the left */}
                 </div>
                 <div class="flex flex-wrap -m-4">
-                  <div class="xl:w-1/4 md:w-1/2 p-4" >
+                  <div class=" w-full md:w-1/4  p-4" >
                   {ranking && (  
-                    <div class="border border-gray-200 p-6  bg-green-50 rounded-lg">
+                    <div class="border border-gray-200 p-6 w-full  bg-green-50 rounded-lg">
                     
                       <div class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-4">
                         <img src={users} />
@@ -135,7 +137,7 @@ useEffect(() => {
                   )}
                   </div>
                   {userData && ( 
-                  <div class="xl:w-1/4 md:w-1/2 p-4">
+                  <div class=" w-full md:w-1/4  p-4 ">
                     <div class="border border-gray-200 p-6 bg-blue-50 rounded-lg">
                     
                       <div class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-4">
@@ -149,7 +151,7 @@ useEffect(() => {
                   </div>
                     )}
               
-                  <div class="xl:w-1/2 md:w-1/2 p-4">
+                  <div class="w-full md:w-1/2  p-4">
 
                     <div className="border border-gray-200 p-6 bg-yellow-100 rounded-lg">
                       <h2 className="text-2xl font-bold text-black title-font mb-4">
@@ -161,7 +163,7 @@ useEffect(() => {
                       <p className="leading-relaxed font-medium text-base flex gap-2">
                         <img className='h-3' src={info} alt="Info Icon" />
                         <span>Time Remaining: <Timer /></span> {/* Timer component also displayed here */}
-                        <img className='h-11 absolute right-20' src={Trophy} />
+                        <img className='h-11 absolute right-20 hidden md:block' src={Trophy} />
                       </p>
                     </div>
 
@@ -171,13 +173,13 @@ useEffect(() => {
             </section>
 
             <section class="text-gray-600 body-font">
-              <div class=" px-5 py-10 mx-auto">
+              <div class=" px-5 py-10 ">
                 <div className="flex flex-wrap w-full mb-5 flex-col items-start text-left"> {/* Change items-center to items-start and text-center to text-left */}
-                  <h1 className="sm:text-2xl text-2xl font-bold title-font mb-2 text-gray-900 ml-6">Current Leaders</h1> {/* Add ml-6 class to move the heading to the left */}
+                  <h1 className="sm:text-2xl text-2xl font-bold title-font mb-2 text-gray-900 ">Current Leaders</h1> {/* Add ml-6 class to move the heading to the left */}
                 </div>
                 <div className="flex flex-wrap -m-4">
       {top3Ranking.map((user, index) => (
-        <div key={index} className="xl:w-1/3 md:w-1/2 p-4">
+        <div key={index} className="w-full md:w-1/3  p-4">
           <div className="border border-gray-200 bg-gray-50 rounded-lg items-center">
             <div className="py-4 px-6 flex items-center">
               <div className="w-10 h-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mr-4">
@@ -217,10 +219,10 @@ useEffect(() => {
             </section>
 
 
-            <section className="text-gray-600 body-font mb-9">
+            <section className="text-gray-600 body-font mb-9 overflow-auto">
       <div className="px-5 py-10 mx-auto">
         <div className="flex flex-wrap w-full mb-5 flex-col items-start text-left">
-          <h1 className="sm:text-2xl text-2xl font-bold title-font mb-2 text-gray-900 ml-6">Ranking</h1>
+          <h1 className="sm:text-2xl text-2xl font-bold title-font mb-2 text-gray-900 ">Ranking</h1>
         </div>
         <div className="lg:w-full w-full mx-auto overflow-auto">
           <table className="table-auto w-full text-left whitespace-no-wrap">
@@ -230,7 +232,7 @@ useEffect(() => {
                 <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-lime-100 rounded-tl rounded-bl">Name</th>
                 <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-lime-100">Points</th>
                 <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-lime-100">CF</th>
-                <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-lime-100">Posts</th>
+              
                 <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-lime-100">Challenges</th>
               </tr>
             </thead>
@@ -241,7 +243,7 @@ useEffect(() => {
                   <td className="px-4 py-3">{user.name}</td>
                   <td className="px-4 py-3">{user.points}</td>
                   <td className="px-4 py-3 text-lg text-gray-900">{user.carbonFootprint || 0}</td> {/* Adjust with actual CF value */}
-                  <td className="px-4 py-3 text-lg text-gray-900">{user.posts || 0}</td> {/* Adjust with actual posts count */}
+                 
                   <td className="px-4 py-3 text-lg text-gray-900">{user.activeChallenges?.length || 0}</td>
                 </tr>
               ))}
@@ -281,8 +283,16 @@ useEffect(() => {
 
           </div>
         </section>
-      </div>
+      </section>
     </div>
+    <div className="md:hidden fixed bottom-0 w-full">
+      <DownBar />
+    </div>
+  </div>
+  
+  
+
+    
 
   )
 }

@@ -30,16 +30,13 @@ function EventList() {
 
   return (
     <section
-    className="main-content"
+    className="main-content-events "
     style={{
-      height: '90vh',
-      padding: '2rem',
-      position: 'relative',
-      zIndex: 0,
+      
       background: 'linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(155,255,199,1) 46%, rgba(255,255,255,1) 100%)',
     }}
   >
-    <section className="text-gray-600 body-font">
+    <section className="text-gray-600 body-font ">
       <h1 className="text-4xl font-bold text-black mx-5 -my-2">2. Events</h1>
       <div className="px-4 py-10 mx-auto">
         <div className="flex flex-wrap -mx-4 -my-8">
