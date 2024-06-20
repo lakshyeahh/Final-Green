@@ -144,16 +144,16 @@ function Carbon() {
   return (
 
 
-<div className="flex flex-col min-h-screen">
-  <header>
-    <NavigationMenuDemo userData={userData} />
-  </header>
-  <div className="flex flex-1">
-    <aside className="hidden lg:block w-1/8">
-      <Sidebar userData={userData} />
-    </aside>
-    <section className="w-full px-3 md:px-10 py-2 md:py-10">
-    <Box className=''>
+    <div className="flex flex-col min-h-screen">
+      <header>
+        <NavigationMenuDemo userData={userData} />
+      </header>
+      <div className="flex flex-1">
+        <aside className="hidden lg:block w-1/8">
+          <Sidebar userData={userData} />
+        </aside>
+        <section className="w-full px-3 md:px-10 py-2 md:py-10">
+          <Box className=''>
             <div className=''>
 
 
@@ -170,40 +170,52 @@ function Carbon() {
 
 
               {carbonFootprint && (
-                
+
                 <div className='flex bg-sky-100 py-10 px-5 border-2 border-blue-700 rounded-xl items-center -mb-10 shadow-lg '>
-                       <section class="text-gray-600 body-font w-full">
+                  <section class="text-gray-600 body-font w-full">
                     <div class="  mx-auto">
                       <div class="flex flex-wrap  text-center">
-                      <div class=" md:w-1/4 sm:w-1/2 w-full">
-                      <div className='relative  bg-gradient-to-t from-purple-500 to-pink-300 rounded-2xl p-4 overflow-hidden '>
-                    <img src={nature} className='absolute top-0 left-0 w-full h-full object-cover rounded-2xl opacity-90' alt="Nature" />
-                    <div className='absolute bottom-0 left-0 transform -translate-x-1/2 translate-y-1/2 bg-white opacity-50 rounded-full' style={{ width: '300px', height: '300px' }}></div>
-                    <div className='relative z-10'>
-                      <div className=' p-4 rounded-2xl '>
-                        <Typography variant="h3" gutterBottom>
-                          <br />
-                          <br />
-                          <img src={cloud} className='absolute right-10 top-0 w-lg' style={{ height: '50px' }} />
-                          <div className='absolute bottom-9 right-0 transform translate-x-1/2 translate-y-1/2 bg-blue-900 opacity-50 overflow-hidden rounded-full' style={{ width: '100px', height: '100px' }}></div>
-                          <div className='absolute bottom-8 left-6 transform -translate-x-1/2 translate-y-1/2 bg-green-900 opacity-50 overflow-hidden rounded-full' style={{ width: '60px', height: '60px', borderTopLeftRadius: '0' }}>
-                            <p className='text-white text-sm flex items-center justify-center h-full font-bold'>Good</p>
+                        <div class=" md:w-1/5 sm:w-1/2 w-full">
+                          <div className='relative  bg-gradient-to-t from-purple-500 to-pink-300 rounded-2xl p-4 overflow-hidden '>
+                            <img src={nature} className='absolute top-0 left-0 w-full h-full object-cover rounded-2xl opacity-90' alt="Nature" />
+                            <div className='absolute bottom-0 left-0 transform -translate-x-1/2 translate-y-1/2 bg-white opacity-50 rounded-full' style={{ width: '300px', height: '300px' }}></div>
+                            <div className='relative z-10'>
+                              <div className=' p-4 rounded-2xl '>
+                                <Typography variant="h3" gutterBottom>
+                                  <br />
+                                  <br />
+                                  <img src={cloud} className='absolute right-10 top-0 w-lg' style={{ height: '50px' }} />
+                                  <div className='absolute bottom-9 right-0 transform translate-x-1/2 translate-y-1/2 bg-blue-900 opacity-50 overflow-hidden rounded-full' style={{ width: '100px', height: '100px' }}></div>
+                                  <div
+                                    className="absolute bottom-8 left-6 transform -translate-x-1/2 translate-y-1/2 overflow-hidden rounded-full"
+                                    style={{
+                                      width: '60px',
+                                      height: '60px',
+                                      borderTopLeftRadius: '0',
+                                      backgroundColor: carbonFootprint.total < 2000 ? '#10B981' : carbonFootprint.total >= 2000 && carbonFootprint.total <= 5000 ? '#F59E0B' : '#EF4444',
+                                      opacity: 0.7,
+                                    }}
+                                  >
+                                    <p className="text-white text-xs flex items-center justify-center h-full font-bold">
+                                      {carbonFootprint.total < 2000 ? 'Good' : carbonFootprint.total >= 2000 && carbonFootprint.total <= 5000 ? 'Moderate' : 'High'}
+                                    </p>
+                                  </div>
+
+
+                                  <h1 className='font-bold absolute text-sky-950 top-0 left-0 drop-shadow-blue-200 drop-shadow-2xl'>
+
+                                    {carbonFootprint.total.toFixed(2)}
+                                  </h1>
+                                  <h6 className='font-sm-bold absolute text-sm text-sky-700 top-12 left-0 drop-shadow-blue-200 drop-shadow-2xl'>
+                                    tons of CO2E
+                                  </h6>
+
+                                </Typography>
+                              </div>
+                            </div>
                           </div>
-
-                          <h1 className='font-bold absolute text-sky-950 top-0 left-0 drop-shadow-blue-200 drop-shadow-2xl'>
-
-                            {carbonFootprint.total}
-                          </h1>
-                          <h6 className='font-sm-bold absolute text-sm text-sky-700 top-12 left-0 drop-shadow-blue-200 drop-shadow-2xl'>
-                            tons of CO2E
-                          </h6>
-
-                        </Typography>
-                      </div>
-                    </div>
-                  </div>
                         </div>
-                        <div class=" md:w-1/4 sm:w-1/2 w-full">
+                        <div class=" md:w-1/5 sm:w-1/2 w-full">
                           <div class="border-4 border-blue-200 bg-white px-4 py-6 rounded-xl">
 
                             <img src={c1} class="w-12 h-12 mb-3 inline-block" alt="Descriptive Alt Text" />
@@ -212,21 +224,21 @@ function Carbon() {
                             <p class="leading-relaxed">Transport</p>
                           </div>
                         </div>
-                        <div class=" md:w-1/4 sm:w-1/2 w-full">
+                        <div class=" md:w-1/5 sm:w-1/2 w-full">
                           <div class="border-4 border-blue-200 bg-white px-4 py-6 rounded-xl">
                             <img src={c2} class="w-12 h-12 mb-3 inline-block" alt="Descriptive Alt Text" />
                             <h2 class="title-font font-medium text-3xl text-gray-900">{carbonFootprint.diet.toFixed(2)}</h2>
                             <p class="leading-relaxed">Diet</p>
                           </div>
                         </div>
-                        <div class=" md:w-1/4 sm:w-1/2 w-full">
+                        <div class=" md:w-1/5 sm:w-1/2 w-full">
                           <div class="border-4 border-blue-200  bg-white px-4 py-6 rounded-xl">
                             <img src={c3} class="w-12 h-12 mb-3 inline-block" alt="Descriptive Alt Text" />
                             <h2 class="title-font font-medium text-3xl text-gray-900">{carbonFootprint.energyUsage.toFixed(2)}</h2>
                             <p class="leading-relaxed">Energy Usage</p>
                           </div>
                         </div>
-                        <div class="md:w-1/4 sm:w-1/2 w-full">
+                        <div class="md:w-1/5 sm:w-1/2 w-full">
                           <div class="border-4 border-blue-200 bg-white px-4 py-6 rounded-xl">
                             <img src={c4} class="w-12 h-12 mb-3 inline-block" alt="Descriptive Alt Text" />
                             <h2 class="title-font font-medium text-3xl text-gray-900">{carbonFootprint.otherFactors.toFixed(2)}</h2>
@@ -311,12 +323,12 @@ function Carbon() {
                 </div>
               </div>
             </section>
-   
+
 
             <section className=' px-5 py-20 -mx-10 mb-20 mx-auto   ' >
-            <h1 className='text-2xl font-bold font-medium  text-sky-300 text-left'>
-              An<span className='text-sky-400'>al</span><span className='text-sky-500'>yt</span><span className='text-sky-600'>ic</span><span className='text-sky-700'>s</span>
-            </h1>
+              <h1 className='text-2xl font-bold font-medium  text-sky-300 text-left'>
+                An<span className='text-sky-400'>al</span><span className='text-sky-500'>yt</span><span className='text-sky-600'>ic</span><span className='text-sky-700'>s</span>
+              </h1>
               <div className='flex flex-wrap gap-6 justify-center ' style={{ background: 'linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(83,167,237,1) 46%, rgba(115,155,240,1) 56%, rgba(147,165,243,1) 66%, rgba(255,255,255,1) 100%)' }} >
 
 
@@ -326,17 +338,17 @@ function Carbon() {
 
                 </div>
                 <Linechart />
-        
+
                 <h4 className='font-medium text-lg text-white mt-20 -mb-44'>Contributions in Your CFs</h4>
                 <div className='w-full bg-blue-300 rounded-2xl h-1 mt-24 -mb-44' >
 
                 </div>
                 <Donut />
-              
+
                 <h4 className='font-medium text-lg text-indigo-900 '>Comparisions with Others</h4>
                 <div className='w-full bg-indigo-200 rounded-2xl h-1 ' >
 
-</div>
+                </div>
                 <Bar />
 
 
@@ -345,12 +357,12 @@ function Carbon() {
 
 
           </Box>
-    </section>
-  </div>
-  <div className="md:hidden fixed bottom-0 w-full">
-    <DownBar />
-  </div>
-</div>
+        </section>
+      </div>
+      <div className="md:hidden fixed bottom-0 w-full">
+        <DownBar />
+      </div>
+    </div>
 
 
 
