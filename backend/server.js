@@ -14,7 +14,7 @@ import http from 'http'
 dotenv.config();
 app.use(cors(
   {
-      origin: ["http://localhost:3000"],
+      origin: ["https://final-green-app.vercel.app"],
       credentials: true
   }
 ));
