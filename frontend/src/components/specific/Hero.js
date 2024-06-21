@@ -22,7 +22,7 @@ function Hero() {
             <div className='mt-5 absolute ' style={{ right: '20px', top: '40%', transform: 'translateY(-50%)' }}>
 
             </div>
-            <span className='absolute'><img src={battery} style={{ height: '150px' }}></img></span>
+            <span className='absolute opacity-0 md:opacity-100'><img src={battery} style={{ height: '150px' }}></img></span>
           </h1>
         </div>
         <br />
@@ -41,7 +41,7 @@ function Hero() {
         <p className="hero-subheading mt-10" >Participate in Challenges,Track Your Progress, Learn and Grow.</p>
       </div>
       <div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 " >
-        <img class="object-cover object-center rounded" alt="hero" src={hero} />
+        <img class="object-cover object-center rounded -mt-10 md:mt-0" alt="hero" src={hero} />
       </div>
     </div>
   </section>

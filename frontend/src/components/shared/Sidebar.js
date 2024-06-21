@@ -26,8 +26,12 @@ const Sidebar = ({ userData, logout }) => {
     }
   };
    return (
+    <div className='h-full w-64 dark:bg-teal-950 dark:border-gray-700 '>
 
-      <aside className='h-full w-64 dark:bg-teal-950 dark:border-gray-700'>
+
+    
+      <aside className='h-full w-64 dark:bg-teal-950 dark:border-gray-700 '>
+        
 
 
       <aside class="flex flex-col w-64 h-screen px-10 py-4 overflow-y-auto bg-white border-r rtl:border-r-0 rtl:border-l dark:bg-teal-950 dark:border-gray-700 scroll-smooth">
@@ -103,6 +107,7 @@ const Sidebar = ({ userData, logout }) => {
 
       
       </aside>
+      </div>
 
    )
 }

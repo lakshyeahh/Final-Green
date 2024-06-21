@@ -3,29 +3,65 @@
 // Example emission factors (values are hypothetical and should be replaced with accurate data)
 const EMISSION_FACTORS = {
     vehicle: {
-      petrol: 2.31, // kg CO2 per mile
-      diesel: 2.68,
-      electric: 0.50,
-      hybrid: 1.85
+      petrol: 2.3,
+      diesel: 2.8,
+      electric: 0.5,
+      hybrid: 1.5
     },
     diet: {
-      vegan: 2, // kg CO2 per day
-      vegetarian: 3,
-      pescatarian: 3.5,
-      omnivore: 5
+      vegan: 2.5, // kg CO2 per day
+      vegetarian: 3.5, // kg CO2 per day
+      pescatarian: 4.0, // kg CO2 per day
+      omnivore: 5.5 // kg CO2 per day
     },
-    electricity: 0.92, // kg CO2 per kWh
-    heating: {
-      electric: 0.92,
-      gas: 2.04,
-      oil: 2.52,
-      solar: 0
+    meatFrequency: {
+      never: 0,
+      rarely: 0.5, // kg CO2 per day
+      sometimes: 1.0, // kg CO2 per day
+      often: 2.0 // kg CO2 per day
     },
-    water: {
-      low: 0.2, // kg CO2 per day
-      medium: 0.5,
-      high: 1
+    locallySourced: {
+      yes: 0.8, // 20% reduction in emissions
+      no: 1.0 // no reduction
+    },
+    foodWaste: {
+      low: 0.9, // 10% reduction in emissions
+      medium: 1.0, // no reduction
+      high: 1.2 // 20% increase in emissions
+    },
+    electricity: 0.233, // kg CO2 per kWh
+    heatingCooling: {
+      none: 0,
+      low: 500, // kg CO2 per year
+      medium: 1000, // kg CO2 per year
+      high: 2000 // kg CO2 per year
+    },
+    renewableEnergy: {
+      yes: 0.5, // 50% reduction in emissions
+      no: 1.0 // no reduction
+    },
+    waterUsage: {
+      low: 0.5, // kg CO2 per day
+      medium: 1.0, // kg CO2 per day
+      high: 2.0 // kg CO2 per day
+    },
+    recyclingPractices: {
+      always: 0.5, // kg CO2 reduction per month
+      sometimes: 0.3, // kg CO2 reduction per month
+      never: 0.1 // kg CO2 reduction per month
+    },
+    reusableProducts: {
+      always: 0.25, // kg CO2 reduction per month
+      sometimes: 0.15, // kg CO2 reduction per month
+      never: 0.05 // kg CO2 reduction per month
+    },
+    composting: {
+      always: 0.4, // kg CO2 reduction per month
+      sometimes: 0.25, // kg CO2 reduction per month
+      never: 0.1 // kg CO2 reduction per month
     }
+// kg CO2 reduction per month
+    
   };
   
   const calculateEmissions =  (data) => {
@@ -39,58 +75,79 @@ const EMISSION_FACTORS = {
     
   
     // Transportation emissions
-    if (data.vehicleType && data.vehicleAverage && data.distanceHomeCollege) {
-      const vehicleFactor = EMISSION_FACTORS.vehicle[data.vehicleType] || 0;
-      emissions.transportation = vehicleFactor * data.vehicleAverage * data.distanceHomeCollege * 2 * 7 / (data.carpooling ? 2 : 1); // round trip for 7 days
+    if (data.vehicleType && data.vehicleAverage && data.distanceHomeCollege && data.fuelType) {
+      // Calculate emission factor based on fuel type
+      console.log(data.fuelType);
+      const fuelFactor = EMISSION_FACTORS.vehicle[data.fuelType] || 0;
+  
+      // Calculate total distance for a week (round trip distance * 7 days)
+      const totalDistance = data.distanceHomeCollege * 2 * 7;
+  
+      // Calculate emissions based on fuel consumption
+     
+        emissions.transportation = fuelFactor * data.vehicleAverage * totalDistance;
+      
     }
   
     // Diet emissions
-    if (data.dietType) {
+    if (data.dietType && data.meatFrequency && data.locallySourced && data.foodWaste) {
+      // Calculate base emission factor based on diet type
       const dietFactor = EMISSION_FACTORS.diet[data.dietType] || 0;
-      emissions.diet = dietFactor * 365;
+  
+      // Calculate additional emission factor based on meat consumption frequency
+      const meatFactor = EMISSION_FACTORS.meatFrequency[data.meatFrequency] || 0;
+  
+      // Calculate adjustment factor for locally sourced food
+      const localFactor = EMISSION_FACTORS.locallySourced[data.locallySourced] || 1;
+  
+      // Calculate adjustment factor for food waste
+      const wasteFactor = EMISSION_FACTORS.foodWaste[data.foodWaste] || 1;
+  
+      // Calculate annual diet emissions
+      emissions.diet = (dietFactor + meatFactor) * 365 * localFactor * wasteFactor;
     }
   
-    if (data.meatFrequency) {
-      const meatFactor = (EMISSION_FACTORS.diet.omnivore - EMISSION_FACTORS.diet.vegan) * data.meatFrequency / 7;
-      emissions.diet += meatFactor * 365;
-    }
-  
+    
     // Electricity emissions
-    if (data.electricityConsumption) {
-      emissions.energyUsage = EMISSION_FACTORS.electricity * data.electricityConsumption * 12; // monthly consumption to yearly
+    if (data.electricityConsumption && data.heatingCooling && data.renewableEnergy && data.waterUsage) {
+      // Calculate base emission factor for electricity consumption
+      const electricityFactor = EMISSION_FACTORS.electricity * data.electricityConsumption * 12; // monthly consumption to yearly
+  
+      // Calculate heating and cooling emissions
+      const heatingCoolingFactor = EMISSION_FACTORS.heatingCooling[data.heatingCooling] || 0;
+  
+      // Calculate adjustment factor for renewable energy usage
+      const renewableFactor = EMISSION_FACTORS.renewableEnergy[data.renewableEnergy] || 1;
+  
+      // Calculate water usage emissions
+      const waterFactor = EMISSION_FACTORS.waterUsage[data.waterUsage] * 365; // daily to yearly
+  
+      // Calculate total energy usage emissions
+      emissions.energyUsage = (electricityFactor + heatingCoolingFactor + waterFactor) * renewableFactor;
     }
   
     // Heating emissions
-    if (data.heatingCooling) {
-      const heatingFactor = EMISSION_FACTORS.heating[data.heatingCooling] || 0;
-      emissions.otherFactors += heatingFactor * 12; // assume a constant monthly rate
+    if (data.recyclingPractices && data.reusableProducts && data.composting) {
+      // Calculate emission reduction factors
+      const recyclingFactor = EMISSION_FACTORS.recyclingPractices[data.recyclingPractices] || 0;
+      const reusableProductsFactor = EMISSION_FACTORS.reusableProducts[data.reusableProducts] || 0;
+      const compostingFactor = EMISSION_FACTORS.composting[data.composting] || 0;
+      
+  
+      // Calculate total monthly reduction
+      const totalMonthlyReduction = recyclingFactor * reusableProductsFactor * compostingFactor;
+  
+      // Calculate annual emissions reduction
+      emissions.otherFactors = totalMonthlyReduction * 12;
     }
   
-    // Water usage emissions
-    if (data.waterUsage) {
-      const waterFactor = EMISSION_FACTORS.water[data.waterUsage] || 0;
-      emissions.otherFactors += waterFactor * 365;
-    }
 
   
     // Calculate total emissions
     emissions.total = emissions.diet + emissions.transportation + emissions.energyUsage + emissions.otherFactors;
+    
+    console.log(emissions);
   
-    // Reduce emissions for sustainable practices
-    if (data.recyclingPractices === 'always') {
-      emissions.otherFactors *= 0.9;
-    }
-    if (data.reusableProducts === 'always') {
-      emissions.otherFactors *= 0.95;
-    }
-    if (data.composting === 'always') {
-      emissions.otherFactors *= 0.95;
-    }
-  
-    // Additional sustainable practices
-    if (data.sustainablePractices) {
-      emissions.otherFactors *= 0.98;
-    }
 
     const token = localStorage.getItem('accessToken');
 

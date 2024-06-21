@@ -49,7 +49,7 @@ function HomePage() {
   
 
   return (
-    <div>
+    <div className='overflow-hidden'>
       <NavigationMenuDemo userData={userData}/>
 
       <Hero/>

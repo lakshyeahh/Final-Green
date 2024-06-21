@@ -14,7 +14,7 @@ import http from 'http'
 dotenv.config();
 app.use(cors(
   {
-      origin: ["https://final-green-app.vercel.app"],
+      origin: [process.env.ALLOWED_ORIGIN],
       credentials: true
   }
 ));

@@ -10,6 +10,7 @@ import MyPrintList from '../components/specific/MyPrintList';
 import Notification from '../components/specific/notification';
 import Sidebar from '../components/shared/Sidebar';
 import UserData from '../components/specific/UserData';
+import DownBar from '../components/shared/DownBar';
 
 
 
@@ -89,22 +90,25 @@ function Dashboard() {
 
 
   return (
-
-    <div className="flex flex-col ">
-    <header className="  ">
-      <NavigationMenuDemo userData={userData} />
-    </header>
-    <div className="flex flex-1 ">
-      <aside className=" ">
-        <Sidebar userData={userData} />
-      </aside>
-      <section className="ml-15 w-2/3 ">
-        <UserData userData={userData}/>
-        <MyChallengeList userData={userData}/>
-      </section>
-    </div>
+<div className="flex flex-col min-h-screen">
+  <header>
+    <NavigationMenuDemo userData={userData} />
+  </header>
+  <div className="flex flex-1">
+    <aside className="hidden lg:block w-1/8">
+      <Sidebar userData={userData} />
+    </aside>
+    <section className="w-full px-3 md:px-10 py-2 md:py-10">
+      <UserData userData={userData} />
+      <MyChallengeList userData={userData} />
+    </section>
   </div>
-  
+  <div className="md:hidden fixed bottom-0 w-full">
+    <DownBar />
+  </div>
+</div>
+
+
   )
 
 }

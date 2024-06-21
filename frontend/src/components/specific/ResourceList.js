@@ -22,7 +22,7 @@ function ResourceList() {
 
   return (
 
-    <section class="text-gray-600 m-6 body-font overflow-hidden  " >
+    <section class="text-gray-600 m-6 body-font overflow-hidden " >
     <h1 className='text-4xl font-bold text-black m-5' style={{ fontFamily: '' }}> 3. Resources</h1>
 
     <div class=" px-5 py-10 mx-auto bg-lime-50 rounded-xl ">

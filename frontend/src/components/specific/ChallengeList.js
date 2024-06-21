@@ -17,7 +17,7 @@ function ChallengeList() {
 
     const fetchChallenges = async () => {
         try {
-            const response = await fetch('https://final-green-api.vercel.app/api/challenges');
+            const response = await fetch(`${process.env.REACT_APP_URL}/api/challenges`);
 
             if (!response.ok) {
                 throw new Error('Failed to fetch challenges data');
@@ -55,7 +55,7 @@ function ChallengeList() {
         <section class="text-gray-600 body-font overflow-hidden">
         <div class="px-5 py-24 mx-auto">
           <h1 class='text-4xl font-bold text-black m-5' style={{ fontFamily: '' }}> 1. Challenges</h1>
-          <div class="flex flex-no-wrap animate-infinite-scroll" style={{height: "400px"}}>
+          <div class="flex flex-no-wrap animate-infinite-scroll-mobile md:animate-infinite-scroll" style={{height: "400px"}}>
           {challenges.map((challenge, index) => (
             <div className="flex-none p-4" style={{width: "400px"}} key={index}>
               <div class="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden transition-transform duration-300 ease-in-out transform hover:translate-x-2">
