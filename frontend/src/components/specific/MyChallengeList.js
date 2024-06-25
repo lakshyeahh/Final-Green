@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react'
+import { Link } from 'react-router-dom';
 
 function MyChallengeList({userData}) {
   const [challenges, setChallenges] = useState([
@@ -35,22 +36,22 @@ function MyChallengeList({userData}) {
   ]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   useEffect(() => {
     if (!userData || !userData.activeChallenges) {
       setLoading(false);
       return;
     }
 
-    const fetchChallenges = async () => {
+    const fetchActiveChallenges = async () => {
       try {
         const challengeDetails = await Promise.all(
-          userData.activeChallenges.map(async (challengeId) => {
-            const response = await fetch(`${process.env.REACT_APP_URL}/api/challenges/${challengeId}`);
+          userData.activeChallenges.map(async (activeChallenge) => {
+            const response = await fetch(`${process.env.REACT_APP_URL}/api/challenges/${activeChallenge.challenge}`);
             if (!response.ok) {
               throw new Error('Failed to fetch challenge details');
             }
-            return response.json();
+            const challengeData = await response.json();
+            return challengeData;
           })
         );
         setChallenges(challengeDetails);
@@ -61,7 +62,7 @@ function MyChallengeList({userData}) {
       }
     };
 
-    fetchChallenges();
+    fetchActiveChallenges();
   }, [userData]);
 
   useEffect(() => {
@@ -73,12 +74,13 @@ function MyChallengeList({userData}) {
     const fetchCompletedChallenges = async () => {
       try {
         const challengeDetails = await Promise.all(
-          userData.completedChallenges.map(async (challengeId) => {
-            const response = await fetch(`${process.env.REACT_APP_URL}/api/challenges/${challengeId}`);
+          userData.completedChallenges.map(async (completedChallenge) => {
+            const response = await fetch(`${process.env.REACT_APP_URL}/api/challenges/${completedChallenge.challenge}`);
             if (!response.ok) {
               throw new Error('Failed to fetch challenge details');
             }
-            return response.json();
+            const challengeData = await response.json();
+            return challengeData;
           })
         );
         setCompletedChallenges(challengeDetails);
@@ -124,8 +126,11 @@ function MyChallengeList({userData}) {
             <td class="px-4 py-3"> {challenge.points}</td>
             <td class="px-4 py-3">{new Date(challenge.endDate).toLocaleDateString()}</td>
             
-            <td class="px-4 py-3 text-lg text-gray-900"> <progress className="progress progress-accent w-20" value={challenges.progress} ></progress></td>
-            <td class="px-4 py-3 text-lg text-gray-900"><a>Details</a></td>
+  
+            <td class="px-4 py-3 text-lg text-gray-900">                <Link to={`/submit/${challenge._id}`}>
+         
+         <a className="hover:bg-gray-200 px-5 py-2 rounded-xl">Details</a>
+         </Link></td>
           </tr>
                ))}
         </tbody>
@@ -136,36 +141,48 @@ function MyChallengeList({userData}) {
 </section>
 <section class="text-gray-600 body-font">
        
-       <div class="   mx-auto">
-       <h2 className='mb-10 text-xl md:text-2xl font-medium md:font-bold '>Completed Challenges</h2>
-         <div class="w-full mx-auto overflow-auto">
-           <table class="table-auto w-full text-left whitespace-no-wrap">
-             <thead>
-               <tr>
-                 <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-emerald-500 rounded-tl rounded-bl">Challenge</th>
-                 <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-emerald-500">Points</th>
-                 <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-emerald-500">End Date</th>
-                 <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-emerald-500">Complete</th>
-                 <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-emerald-500">Progress</th>
-               
-               </tr>
-             </thead>
-             <tbody>
-             {completedChallenges.map((challenge, index) => (
-                <tr key={challenge._id}>
-                 <td class="px-4 py-3">{challenge.title}</td>
-                 <td class="px-4 py-3"> {challenge.points}</td>
-                 <td class="px-4 py-3">{new Date(challenge.endDate).toLocaleDateString()}</td>
-                 
-                 <td class="px-4 py-3 text-lg text-gray-900"> <progress className="progress progress-accent w-20" value={100} ></progress></td>
-                 <td class="px-4 py-3 text-lg text-gray-900"><a className='hover:bg-gray-200 px-5 py-2 rounded-xl'>Details</a></td> 
-               </tr>
-                    ))}
-             </tbody>
-           </table>
-         </div>
+{completedChallenges.length === 0 ? (
+  <div className="mx-auto">
+    <h2 className="mb-10 text-xl md:text-2xl font-medium md:font-bold">Completed Challenges</h2>
+    <p>OOPS :( No challenges have been completed yet.</p>
+  </div>
+) : (
+  <div className="mx-auto">
+    <h2 className="mb-10 text-xl md:text-2xl font-medium md:font-bold">Completed Challenges</h2>
+    <div className="w-full mx-auto overflow-auto">
+      <table className="table-auto w-full text-left whitespace-no-wrap">
+        <thead>
+          <tr>
+            <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-emerald-500 rounded-tl rounded-bl">Challenge</th>
+            <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-emerald-500">Points</th>
+            <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-emerald-500">End Date</th>
+            <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-emerald-500">Complete</th>
+            <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-emerald-500">Progress</th>
+          </tr>
+        </thead>
+        <tbody>
+          {completedChallenges.map((challenge, index) => (
+            <tr key={challenge._id}>
+              <td className="px-4 py-3">{challenge.title}</td>
+              <td className="px-4 py-3">{challenge.points}</td>
+              <td className="px-4 py-3">{new Date(challenge.endDate).toLocaleDateString()}</td>
+              <td className="px-4 py-3 text-lg text-gray-900">
+                <progress className="progress progress-accent w-20" value={100}></progress>
+              </td>
+              <td className="px-4 py-3 text-lg text-gray-900">
+                <Link to='/submit/specific'>
          
-       </div>
+                <a className="hover:bg-gray-200 px-5 py-2 rounded-xl">Details</a>
+                </Link>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+)}
+
      </section>
 
 </div>

@@ -11,7 +11,7 @@ import rank_1 from '../Media/one.png';
 import rank_2 from '../Media/two.png';
 import rank_3 from '../Media/three.png';
 import DownBar from '../components/shared/DownBar'
-
+import logo from '../Media/logo.png'
 import Sidebar from '../components/shared/Sidebar'
 
 
@@ -76,7 +76,9 @@ useEffect(() => {
         const data = await response.json();
         setRanking(data); // Assuming data is an array of leaderboard entries
         setRanking(data);
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false);
+        }, 500);
 
       } catch (error) {
         setError(error.message);
@@ -87,9 +89,12 @@ useEffect(() => {
     fetchLeaderboard();
   }, []); 
 
-
   if (loading) {
-    return <p>Loading...</p>;
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <span className="loading loading-dots loading-lg text-green-300 bg-green-300"></span>
+      </div>
+    );
   }
 
   if (error) {

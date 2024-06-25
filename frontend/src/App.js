@@ -16,6 +16,8 @@ import Waste from './pages/Waste';
 import Leaderboard from './pages/Leaderboard';
 import Forum from './pages/Forum';
 import ProtectedRoute from './components/shared/protectedRoute';
+import Submit from './pages/Submit';
+import ChanllengeDetails from './pages/ChanllengeDetails';
 
 function App() {
   return (
@@ -35,6 +37,8 @@ function App() {
             <Route path="/waste" element={<ProtectedRoute element={Waste} />} />
             <Route path="/leaderboard" element={<ProtectedRoute element={Leaderboard} />} />
             <Route path="/forum" element={<ProtectedRoute element={Forum} />} />
+            <Route path="/submit" element={<ProtectedRoute element={Submit} />} />
+            <Route path="/submit/:challengeId" element={<ProtectedRoute element={ChanllengeDetails} />} />
           </Routes>
         </div>
       </BrowserRouter>
