@@ -5,17 +5,20 @@ function UserData({userData}) {
         return null;
     }
     return (
+  <div>
+{userData && (
+
 <div className="stats-vetical w-full lg:stats shadow bg-gray-300  md:h-40 ">
-  
+
   <div className="stat bg-white ">
     
   
         <div>
           <div className="stat-title font-bold text-purple-500">Points</div>
-          {userData.points && (
+
           <div className="stat-value">{userData.points}</div>
-        )}
-          <div className="stat-desc text-black">This Month</div>
+       
+          <div className="stat-desc text-black">All Time</div>
         </div>
 
 
@@ -39,7 +42,9 @@ function UserData({userData}) {
     
     
   </div>
-  
+
+</div>
+)}
 </div>
     )
 }

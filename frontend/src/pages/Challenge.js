@@ -101,13 +101,13 @@ function Challenge() {
         let sortedChallenges = [...challenges];
         switch (activeTab) {
           case 'popular':
-            sortedChallenges.sort((a, b) => b.participants - a.participants);
+            sortedChallenges.sort((a, b) => b.participants > a.participants);
             break;
           case 'highPoints':
-            sortedChallenges.sort((a, b) => b.points - a.points);
+            sortedChallenges.sort((a, b) => b.points > a.points);
             break;
           case 'new':
-            sortedChallenges.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
+            sortedChallenges.sort((a, b) => new Date(b.startDate) > new Date(a.startDate));
             break;
           default:
             sortedChallenges = challenges;
@@ -131,12 +131,13 @@ function Challenge() {
           if (!response.ok) {
             throw new Error('Failed to fetch user data');
           }
-          
-          toast.success('You have successfully joined the challenge!');
+          const data = await response.json();
+          toast.success(data.message);
         } catch (error) {
-          
+          toast.error('Failed to join the challenge. Please try again later.');
         }
       };
+      
       
     const images = [
       
@@ -244,8 +245,17 @@ Check out the exciting challenges below and start your journey towards personal 
           <div className="p-6 flex flex-col justify-between flex-1">
             <div>
               <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">
-                CATEGORY
-                <Badge variant="solid" color="teal">New</Badge>
+
+
+              <Badge variant="solid" color={
+          challenge.category === 'leaf' ? 'teal' :
+          challenge.category === 'fuel' ? 'amber' :
+          challenge.category === 'drop' ? 'blue' :
+          challenge.category === 'clean' ? 'violet' :
+          'gray' // Default to gray if category doesn't match known types
+        } className='shadow-lg'>
+          {challenge.category}
+        </Badge>
               </h2>
               <h1 className="title-font text-lg font-medium text-gray-900 mb-3">{challenge.title}</h1>
               <p className="leading-relaxed mb-3">{challenge.description}</p>
