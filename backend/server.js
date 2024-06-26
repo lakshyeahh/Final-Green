@@ -15,11 +15,10 @@ dotenv.config();
 app.use(cors(
   {
 
-<<<<<<< HEAD
+
       origin: ["http://localhost:3000"],
-=======
-      origin:  [process.env.ALLOWED_ORIGIN],
->>>>>>> 0ea1831e42f977c6f2b4a694df9b8b477c155685
+
+
 
       credentials: true
   }

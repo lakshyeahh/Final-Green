@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react'
 import { Link } from 'react-router-dom';
 
 function MyChallengeList({userData}) {
+  const [challengeDetails, setChallengeDetails] = useState([null]);
+  const token = localStorage.getItem('accessToken');
   const [challenges, setChallenges] = useState([
     {
       _id: 'sample1',
@@ -37,24 +39,27 @@ function MyChallengeList({userData}) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   useEffect(() => {
-    if (!userData || !userData.activeChallenges) {
-      setLoading(false);
-      return;
-    }
-
     const fetchActiveChallenges = async () => {
       try {
-        const challengeDetails = await Promise.all(
-          userData.activeChallenges.map(async (activeChallenge) => {
-            const response = await fetch(`${process.env.REACT_APP_URL}/api/challenges/${activeChallenge.challenge}`);
-            if (!response.ok) {
-              throw new Error('Failed to fetch challenge details');
-            }
-            const challengeData = await response.json();
-            return challengeData;
-          })
-        );
-        setChallenges(challengeDetails);
+        if (!token) {
+          alert("Login First!");
+          throw new Error('Access token not found');
+        }
+
+        const response = await fetch(`${process.env.REACT_APP_URL}/api/challenges/active`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        if (!response.ok) {
+          throw new Error('Failed to fetch user data');
+        }
+
+        const data = await response.json();
+
+        setChallengeDetails(data);
+
         setLoading(false);
       } catch (error) {
         setError(error.message);
@@ -108,6 +113,7 @@ function MyChallengeList({userData}) {
   <div class="  py-20 mx-auto">
   <h2 className='mb-10 text-xl md:text-2xl font-medium md:font-bold '>Active Challenges</h2>
     <div class="w-full mx-auto overflow-auto">
+    {challengeDetails && challengeDetails.map((one, index) => (
       <table class="table-auto w-full text-left whitespace-no-wrap">
         <thead>
           <tr>
@@ -120,21 +126,25 @@ function MyChallengeList({userData}) {
           </tr>
         </thead>
         <tbody>
-        {challenges.map((challenge, index) => (
-           <tr key={challenge._id}>
-            <td class="px-4 py-3">{challenge.title}</td>
-            <td class="px-4 py-3"> {challenge.points}</td>
-            <td class="px-4 py-3">{new Date(challenge.endDate).toLocaleDateString()}</td>
-            
+    
+        {one && one.challenge && (
+           <tr key={one.challenge._id}>
+            <td class="px-4 py-3">{one.challenge.title}</td>
+            <td class="px-4 py-3"> {one.challenge.points}</td>
+            <td class="px-4 py-3">{new Date(one.challenge.endDate).toLocaleDateString()}</td>
+            <td className="px-4 py-3 text-lg text-gray-900">
+                <progress className="progress progress-accent w-20" value={one.progress} max={4}></progress>
+              </td>
   
-            <td class="px-4 py-3 text-lg text-gray-900">                <Link to={`/submit/${challenge._id}`}>
+            <td class="px-4 py-3 text-lg text-gray-900">                <Link to={`/submit/${one.challenge.id}`}>
          
          <a className="hover:bg-gray-200 px-5 py-2 rounded-xl">Details</a>
          </Link></td>
           </tr>
-               ))}
+                )}
         </tbody>
       </table>
+                 ))}
     </div>
     
   </div>

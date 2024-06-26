@@ -25,7 +25,7 @@ export const createChallenge =  async (req, res) => {
     } = req.body;
 
     // Validate request data
-    if (!category || !title || !description || !startDate || !endDate || !points) {
+    if (!category || !title || !description || !startDate || !endDate || !points || !steps) {
       return res.status(400).json({ message: 'All required fields must be provided' });
     }
 
@@ -36,7 +36,7 @@ export const createChallenge =  async (req, res) => {
       description,
       startDate,
       endDate,
-      participants,
+
       steps,
       points
     });
@@ -82,14 +82,33 @@ export const joinChallenge = async (req, res) => {
     }
 
     // Check if the user is already a participant in the challenge
-    const isUserAlreadyParticipant = challenge.participants.some(participantId => participantId.toString() === userId.toString());
+    const isUserAlreadyParticipant = challenge.participants.some(participant => participant.userId.toString() === userId.toString());
 
     // Check if the challenge is already in the user's list of active challenges
     const isChallengeAlreadyInUser = user.activeChallenges.some(ac => ac.challenge.toString() === challengeId.toString());
+    
+    let message = '';
+    
+    // Check conditions and set appropriate messages
+    if (isUserAlreadyParticipant) {
+      message = 'You are already a participant in this challenge.';
+    }
+    
 
     if (!isUserAlreadyParticipant) {
-      challenge.participants.push(userId);
-      await challenge.save();
+      try {
+        // Assuming challenge is already defined and fetched from somewhere
+        challenge.participants.push({ userId: userId });
+        message: 'Successfully joined the challenge';
+        await challenge.save();
+     
+
+      } catch (error) {
+        // Handle error saving the challenge or any other error
+        console.error('Error adding participant:', error);
+        // Optionally, you can throw the error or handle it based on your application's needs
+        throw error;
+      }
     }
 
     if (!isChallengeAlreadyInUser) {
@@ -98,103 +117,217 @@ export const joinChallenge = async (req, res) => {
       await user.save();
     }
 
-    res.status(200).json({ message: 'Successfully joined the challenge' });
+    res.status(200).json({ message });
   } catch (error) {
     res.status(500).json({ message: 'Error joining challenge', error });
   }
 };
 
-// Get progress of a user for a specific challenge
-export const getChallengeProgress = async (req, res) => {
-    try {
-      const { challengeId } = req.params;
 
-      const challenge = await Challenge.findById(challengeId);
-      if (!challenge) {
-        return res.status(404).send();
-      }
-      const userId = req.user._id;
-      const progress = challenge.progress.filter(p => p.userId.toString() === userId);
-  
-      // If no progress is found, send an empty array
-      if (progress.length === 0) {
-        return res.send([]);
-      }
-  
-      res.send(progress);
-    } catch (error) {
-      res.status(500).send(error);
+export const getActiveChallengesForUser = async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    // Validate userId - Assuming user ID is valid if you're here
+
+    // Find the user by ID
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).send('User not found');
     }
-  };
-  
-  
-  export const updateChallenge = async (req, res) => {
-    try {
-      const userId = req.user._id;
-      const { stepNumber } = req.body;
-      const { challengeId } = req.params;
-  
-      const challenge = await Challenge.findById(challengeId);
+
+    // Extract the active challenges
+    const activeChallengesPromises = user.activeChallenges.map(async (ac) => {
+      // Find the challenge by ID
+      const challenge = await Challenge.findById(ac.challenge)
+        .select('category title description startDate endDate steps points participants');
+
       if (!challenge) {
-        return res.status(404).send();
+        return null; // If challenge not found, return null
       }
-  
-      // Update the step progress
-      const stepProgress = challenge.progress.find(p => p.userId.toString() === userId && p.stepNumber === stepNumber);
-      if (stepProgress) {
-        stepProgress.completed = true;
-      } else {
-        challenge.progress.push({ userId, stepNumber, completed: true });
+
+      // Find participant details for the user within the challenge
+      const participant = challenge.participants.find(participant => participant.userId.toString() === userId.toString());
+
+      if (!participant) {
+        return null; // If user is not a participant, return null
       }
-  
-      // Calculate completed steps count
-      const completedStepsCount = challenge.progress.reduce((count, step) => {
-        if (step.userId.toString() === userId && step.completed) {
-          return count + 1;
-        }
-        return count;
-      }, 0);
-  
-      // Update user's activeChallenges with progress percentage
-      const user = await User.findById(userId);
-      if (!user) {
-        return res.status(404).json({ message: 'User not found' });
-      }
- 
-      const activeChallenge = user.activeChallenges.find(ac => ac.challenge.toString() === challengeId.toString());
-      if (activeChallenge) {
-        activeChallenge.progress = stepNumber;  // Update progress to the current stepNumber
-      }
-      // if (activeChallengeIndex !== -1) {
-        
-      //   const progressPercentage = (completedStepsCount / 4) * 100;
-      //   activeChallenge[activeChallengeIndex].progress = progressPercentage; // Assuming 2 decimal places for percentage
-      // }
+
+      // Calculate verified step count
+      const verifiedCount = participant.details.filter(detail => detail.verified).length;
+
+      return {
+        challenge: {
+          id: challenge._id,
+          category: challenge.category,
+          title: challenge.title,
+          description: challenge.description,
+          startDate: challenge.startDate,
+          endDate: challenge.endDate,
+          steps: challenge.steps,
+          points: challenge.points,
+        },
+        progress: verifiedCount, // Include progress (step number) information
+        verifiedCount: verifiedCount // Include verified step count
+      };
+    });
+
+    // Resolve all promises and filter out null results
+    const activeChallenges = (await Promise.all(activeChallengesPromises)).filter(ac => ac !== null);
+
+    res.send(activeChallenges);
+  } catch (error) {
+    console.error('Error fetching active challenges:', error);
+    res.status(500).send('Internal server error');
+  }
+};
+
+
+
+export const getChallengeDetailsForUser = async (req, res) => {
+  try {
+    const { challengeId } = req.params;
+    const userId = req.user._id; // Assuming user ID is available in req.user
+
+    // Find the challenge by ID
+    const challenge = await Challenge.findById(challengeId);
+
+    if (!challenge) {
+      return res.status(404).send('Challenge not found');
+    }
+
+    // Find participant details for the user within the challenge
+    const participant = challenge.participants.find(participant => participant.userId.toString() === userId.toString());
+
+    if (!participant) {
+      return res.status(404).send('User is not a participant in this challenge');
+    }
+
+    const verifiedCount = participant.details.filter(detail => detail.verified).length;
+
+
+    // Prepare the response object
+    const challengeDetails = {
+      _id: challenge._id,
+      category: challenge.category,
+      title: challenge.title,
+      description: challenge.description,
+      startDate: challenge.startDate,
+      endDate: challenge.endDate,
+      points: challenge.points,
+      steps: challenge.steps,
+      participantDetails: participant.details,
+      verifiedCount
+   // Include only participant details for the user
+    };
+
+    res.send(challengeDetails);
+  } catch (error) {
+    console.error('Error fetching challenge details:', error);
+    res.status(500).send('Internal server error');
+  }
+};
+export const submitChallengeInput = async (req, res) => {
+  try {
+    const { challengeId } = req.params;
+    const { stepNumber, inputGiven } = req.body;
+
+    // Validate incoming data
+    if (!challengeId || !stepNumber || !inputGiven) {
+      return res.status(400).send('Invalid input data');
+    }
+
+    const userId = req.user._id; // Assuming user ID is available in req.user
+
+    // Find the challenge by ID
+    const challenge = await Challenge.findById(challengeId);
+
+    if (!challenge) {
+      return res.status(404).send('Challenge not found');
+    }
+
+    // Find or create participant details for the user within the challenge
+    let participantDetails = challenge.participants.find(participant =>
+      participant.userId.toString() === userId.toString()
+    );
+
+    if (!participantDetails) {
+      // If participant details don't exist, create a new entry
+      participantDetails = { userId: userId, details: [] };
+      challenge.participants.push(participantDetails);
+    }
+
+    // Find or create details for the specified step number
+    let stepDetails = participantDetails.details.find(detail =>
+      detail.stepNumber === stepNumber
+    );
+
+    if (!stepDetails) {
+      // If step details don't exist, create a new entry
+      stepDetails = { stepNumber: stepNumber, inputGiven: inputGiven };
+      participantDetails.details.push(stepDetails);
+    } else {
+      // Update existing step details
+      stepDetails.inputGiven = inputGiven;
+    }
+
+    // Save the updated challenge document
+    await challenge.save();
+
+    res.send({
+      message: 'Step submitted successfully',
+      participantDetails: participantDetails
+    });
+  } catch (error) {
+    console.error('Error submitting challenge input:', error);
+    res.status(500).send('Internal server error');
+  }
+};
 
   
-      // Check if all steps are completed
-      const stepsCompleted = completedStepsCount === challenge.steps.length;
-  
-      if (stepsCompleted) {
-        // Update user's points
-        user.points += challenge.points;
-  
-        // Move challenge from activeChallenges to completedChallenges
-        user.activeChallenges = user.activeChallenges.filter(id => id.toString() !== challengeId.toString());
-        if (!user.completedChallenges.includes(challengeId)) {
-          user.completedChallenges.push(challengeId);
+
+export const completeChallenge = async (req, res) => {
+  try {
+    const { challengeId } = req.params;
+    const userId = req.user._id; // Assuming user ID is available in req.user
+
+    // Find the user by ID and update activeChallenges and completedChallenges
+    const user = await User.findByIdAndUpdate(userId,
+      { 
+        $pull: { 
+          activeChallenges: { challenge: challengeId } // Remove challenge from activeChallenges
+        },
+        $addToSet: {
+          completedChallenges: challengeId // Add challenge to completedChallenges (if not already there)
+        },
+        $inc: { points: 100 } // Example: Credit 100 points to user's total points
+      },
+      { new: true } // To return the updated document
+    );
+
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+
+    // Find the challenge by ID and remove user from participants
+    const challenge = await Challenge.findByIdAndUpdate(challengeId,
+      { 
+        $pull: {
+          participants: { userId: userId } // Remove user from participants
         }
       }
-  
-      await user.save();
-      await challenge.save();
-  
-      res.status(200).json(challenge);
-    } catch (error) {
-      console.error('Error updating challenge:', error);
-      res.status(500).json({ message: 'Error updating challenge', error });
+    );
+
+    if (!challenge) {
+      return res.status(404).send('Challenge not found');
     }
-  };
+
+    res.send('Challenge completed successfully');
+  } catch (error) {
+    console.error('Error completing challenge:', error);
+    res.status(500).send('Internal server error');
+  }
+};
 
 export const getUserChallenges = async (req, res) => {
     try {

@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
   badges: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Badge' }],
   activeChallenges: [{
     challenge: { type: mongoose.Schema.Types.ObjectId, ref: 'Challenge', required: true },
-    progress: { type: Number, default: 0, min: 0, max: 100 }  // Progress in percentage
+    progress: { type: Number, default: 0, min: 0, max: 4 }  // Progress in percentage
   }],
   completedChallenges: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Challenge' }],
   rank: { type: Number, default: 0 },
