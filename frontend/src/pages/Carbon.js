@@ -21,6 +21,7 @@ import Linechart from '../components/shared/LineChart';
 import Donut from '../components/shared/Donut';
 import Bar from '../components/shared/Bar';
 import DownBar from '../components/shared/DownBar';
+import logo from '../Media/logo.png'
 
 
 const drawerWidth = 240;
@@ -39,6 +40,7 @@ function Carbon() {
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState(null);
   const token = localStorage.getItem('accessToken');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchMeData = async () => {
@@ -62,6 +64,9 @@ function Carbon() {
 
         const data = await response.json();
         setUserData(data);
+        setTimeout(() => {
+          setLoading(false);
+        }, 500);
       } catch (error) {
         setError(error.message);
       }
@@ -95,6 +100,9 @@ function Carbon() {
 
         const data = await response.json();
         setCarbonFootprint(data);
+        setTimeout(() => {
+          setLoading(false);
+        }, 500);
       } catch (error) {
         console.error('Error fetching carbon footprint:', error);
         setError(error.message);
@@ -140,6 +148,14 @@ function Carbon() {
     day: 'numeric'
   });
 
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen flex-col">
+        <img src={logo} className="h-16 mb-4" alt="Logo" />
+        <span className="loading loading-dots loading-lg text-green-300 bg-green-300"></span>
+      </div>
+    );
+  }
 
   return (
 

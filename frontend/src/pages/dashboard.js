@@ -11,6 +11,7 @@ import Notification from '../components/specific/notification';
 import Sidebar from '../components/shared/Sidebar';
 import UserData from '../components/specific/UserData';
 import DownBar from '../components/shared/DownBar';
+import logo from '../Media/logo.png'
 
 
 
@@ -21,7 +22,9 @@ function Dashboard() {
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState(null);
   const token = localStorage.getItem('accessToken');
+  const [loading, setLoading] = useState(true);
   
+
 
   useEffect(() => {
     const fetchMeData = async () => {
@@ -45,6 +48,9 @@ function Dashboard() {
 
         const data = await response.json();
         setUserData(data);
+        setTimeout(() => {
+          setLoading(false);
+        }, 500);
       } catch (error) {
         setError(error.message);
       }
@@ -88,8 +94,17 @@ function Dashboard() {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen flex-col">
+        <img src={logo} className="h-16 mb-4" alt="Logo" />
+        <span className="loading loading-dots loading-lg text-green-300 bg-green-300"></span>
+      </div>
+    );
+  }
 
   return (
+    
 <div className="flex flex-col min-h-screen">
   <header>
     <NavigationMenuDemo userData={userData} />

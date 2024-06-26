@@ -3,7 +3,7 @@ import { AppBar, Toolbar, Typography, Drawer, List, ListItem, CssBaseline, Box }
 import CardComponent from '../components/shared/Card';
 import NavigationMenuDemo from '../components/shared/navbar';
 import { useState, useEffect } from 'react';
-import { Flex, Badge } from '@radix-ui/themes';
+import { Flex, Badge, Button } from '@radix-ui/themes';
 import user from '../Media/user.png'
 import bkg from '../Media/background.png';
 import Sidebar from '../components/shared/Sidebar';
@@ -18,6 +18,8 @@ import img8 from '../Media/Image8.png';
 import img9 from '../Media/Image9.png';
 import img10 from '../Media/Image10.png';
 import DownBar from '../components/shared/DownBar';
+import { ToastContainer, toast } from 'react-toastify';
+import logo from '../Media/logo.png'
 
 
 const drawerWidth = 240;
@@ -33,6 +35,7 @@ function Challenge() {
     const [error, setError] = useState(null);
     const token = localStorage.getItem('accessToken');
     const [filteredChallenges, setFilteredChallenges] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
       const fetchMeData = async () => {
@@ -56,6 +59,9 @@ function Challenge() {
   
           const data = await response.json();
           setUserData(data);
+          setTimeout(() => {
+            setLoading(false);
+          }, 500);
         } catch (error) {
           setError(error.message);
         }
@@ -108,6 +114,29 @@ function Challenge() {
         }
         setFilteredChallenges(sortedChallenges);
       }, [activeTab, challenges]);
+
+      const handleJoinChallenge = async (challengeId) => {
+        try {
+          
+         
+  
+          const response = await fetch(`${process.env.REACT_APP_URL}/api/challenges/${challengeId}/join`, {
+            method: 'POST',
+            headers: {
+              'Content': `application/json`,
+              'Authorization': `Bearer ${token}`
+            }
+          });
+  
+          if (!response.ok) {
+            throw new Error('Failed to fetch user data');
+          }
+          
+          toast.success('You have successfully joined the challenge!');
+        } catch (error) {
+          
+        }
+      };
       
     const images = [
       
@@ -124,6 +153,16 @@ function Challenge() {
       // Add more images if needed
     ];
     
+    
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen flex-col">
+        <img src={logo} className="h-16 mb-4" alt="Logo" />
+        <span className="loading loading-dots loading-lg text-green-300 bg-green-300"></span>
+      </div>
+    );
+  }
+  
   return (
 
 
@@ -136,6 +175,7 @@ function Challenge() {
     <Sidebar userData={userData} />
   </aside>
   <section className="w-full px-3 md:px-10 py-5 md:py-10">
+  <ToastContainer />
   <Box className=' '>
         
         <div className=' bg-gradient-to-tr from-teal-300 to-lime-300 p-2 rounded-2xl' >
@@ -191,45 +231,74 @@ Check out the exciting challenges below and start your journey towards personal 
 </div>
 </header>
           <section class="text-gray-600 body-font">
-<div class="  py-20 mx-auto">
-  <div class="flex flex-wrap -m-4">
-  {filteredChallenges.map((challenge, index) => (
-    <div class="p-4 md:w-1/3">
-      <div class="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
-        <img class="lg:h-48 md:h-36 w-full object-cover object-center" src={images[index % images.length]} alt="blog" />
-        <div class="p-6">
-          <h2 class="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">CATEGORY  <Badge variant="solid" color="teal">
-              New
-            </Badge></h2>
-          <h1 class="title-font text-lg font-medium text-gray-900 mb-3">{challenge.title} </h1>
-         
-          <p class="leading-relaxed mb-3">{challenge.description}</p>
-          <div class="flex items-center flex-wrap ">
-            <a class="text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0">Learn More
-              <svg class="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M5 12h14"></path>
-                <path d="M12 5l7 7-7 7"></path>
-              </svg>
-            </a>
-            <span class="text-gray-400 mr-3 inline-flex items-center lg:ml-auto md:ml-0 ml-auto leading-none text-sm pr-3 py-1 border-r-2 border-gray-200">
-             <img className='h-6' src={user} /> {challenge.participants.length}
-            </span>
-            <span class="text-gray-400 inline-flex items-center leading-none text-sm">
-            <svg  class="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="20" viewBox="0 0 30 30">
-  <path d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M21,16h-5v5 c0,0.553-0.448,1-1,1s-1-0.447-1-1v-5H9c-0.552,0-1-0.447-1-1s0.448-1,1-1h5V9c0-0.553,0.448-1,1-1s1,0.447,1,1v5h5 c0.552,0,1,0.447,1,1S21.552,16,21,16z"></path>
-</svg> 
-
-
-{challenge.points}
-              
-            </span>
+          <div className="py-20 mx-auto">
+  <div className="flex flex-wrap -m-4">
+    {filteredChallenges.map((challenge, index) => (
+      <div className="p-4 md:w-1/3" key={index}>
+        <div className="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden flex flex-col justify-between min-h-[400px] max-h-[800px]">
+          <img
+            className="lg:h-48 md:h-36 w-full object-cover object-center"
+            src={images[index % images.length]}
+            alt="blog"
+          />
+          <div className="p-6 flex flex-col justify-between flex-1">
+            <div>
+              <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">
+                CATEGORY
+                <Badge variant="solid" color="teal">New</Badge>
+              </h2>
+              <h1 className="title-font text-lg font-medium text-gray-900 mb-3">{challenge.title}</h1>
+              <p className="leading-relaxed mb-3">{challenge.description}</p>
+            </div>
+            <div className="flex items-center flex-wrap">
+            <button
+                className="btn bg-gradient-to-tr from-teal-300 to-lime-300 text-gray-600 mt-5 w-20"
+                onClick={() => {
+                  document.getElementById(`my_modal_${index}`).showModal();
+                }}
+              >
+                Join
+              </button>
+              <dialog id={`my_modal_${index}`} className="modal">
+                <div className="modal-box bg-white">
+                  <form method="dialog">
+                    <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                  </form>
+                  <h3 className="font-bold text-lg text-green-500 mb-5">Good Job!</h3>
+                  <ul className="max-w-md space-y-1 text-gray-800 list-inside mb-10">
+                    {challenge.steps.map((step) => (
+                      <li key={step._id} className="flex items-center">
+                        <svg className="w-3.5 h-3.5 me-2 text-gray-500 flex-shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                        </svg>
+                        {step.description}
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="py-4 mt-4 text-gray-400 mb-5">
+                    Click on the button to confirm your joining and completing the challenge within the end date.
+                  </p>
+                  <br/>
+                  <Button color='jade' className='mt-5 bg-green-400 px-3 py-1 rounded-xl hover:bg-green-500' onClick={() => handleJoinChallenge(challenge._id)}>Confirm</Button>
+                </div>
+              </dialog>
+              <span className="text-gray-400 mr-3 inline-flex items-center lg:ml-auto md:ml-0 ml-auto leading-none text-sm pr-3 py-1 border-r-2 border-gray-200">
+                <img className="h-6" src={user} alt="participants" /> {challenge.participants.length}
+              </span>
+              <span className="text-gray-400 inline-flex items-center leading-none text-sm">
+                <svg className="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30">
+                  <path d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M21,16h-5v5 c0,0.553-0.448,1-1,1s-1-0.447-1-1v-5H9c-0.552,0-1-0.447-1-1s0.448-1,1-1h5V9c0-0.553,0.448-1,1-1s1,0.447,1,1v5h5 c0.552,0,1,0.447,1,1S21.552,16,21,16z"></path>
+                </svg>
+                {challenge.points}
+              </span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-        ))}
+    ))}
   </div>
 </div>
+
 </section>
        
       </Box>

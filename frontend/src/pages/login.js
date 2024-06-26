@@ -12,7 +12,7 @@ import {
 import backgroundImage from '../Media/back.jpg'; // Adjust the path as needed
 import NavigationMenuDemo from '../components/shared/navbar';
 import { ToastContainer, toast } from 'react-toastify';
-
+import logo from '../Media/logo.png'
 import 'react-toastify/dist/ReactToastify.css';
 
 function Login() {
@@ -20,6 +20,7 @@ function Login() {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

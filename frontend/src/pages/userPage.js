@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Heading, Text, Card, Inset } from '@radix-ui/themes';
+import logo from '../Media/logo.png'
 
 
 function UserPage() {
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchMeData = async () => {

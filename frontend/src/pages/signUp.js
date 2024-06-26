@@ -13,6 +13,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import NavigationMenuDemo from '../components/shared/navbar';
 import { ToastContainer, toast } from 'react-toastify';
+import logo from '../Media/logo.png'
 
 
 
@@ -25,6 +26,7 @@ function SignUp() {
     const [repeatPassword, setRepeatPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
 
     const handleSubmit = async (e) => {
         e.preventDefault();

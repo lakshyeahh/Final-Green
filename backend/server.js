@@ -14,7 +14,9 @@ import http from 'http'
 dotenv.config();
 app.use(cors(
   {
-      origin: [process.env.ALLOWED_ORIGIN],
+
+      origin:  [process.env.ALLOWED_ORIGIN],
+
       credentials: true
   }
 ));

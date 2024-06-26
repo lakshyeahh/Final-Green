@@ -8,6 +8,7 @@ import user from '../Media/user.png'
 import bkg from '../Media/background.png';
 import Sidebar from '../components/shared/Sidebar';
 import DownBar from '../components/shared/DownBar';
+import logo from '../Media/logo.png'
 
 const drawerWidth = 240;
 const randomHashtags = [
@@ -22,6 +23,7 @@ function Challenge() {
   const [error, setError] = useState(null);
   const token = localStorage.getItem('accessToken');
   const [filteredChallenges, setFilteredChallenges] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchMeData = async () => {
@@ -45,6 +47,9 @@ function Challenge() {
 
         const data = await response.json();
         setUserData(data);
+        setTimeout(() => {
+          setLoading(false);
+        }, 500);
       } catch (error) {
         setError(error.message);
       }
@@ -102,6 +107,16 @@ function Challenge() {
     month: 'long',
     day: 'numeric'
   });
+  
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen flex-col">
+        <img src={logo} className="h-16 mb-4" alt="Logo" />
+        <span className="loading loading-dots loading-lg text-green-300 bg-green-300"></span>
+      </div>
+    );
+  }
+
 
 
   return (

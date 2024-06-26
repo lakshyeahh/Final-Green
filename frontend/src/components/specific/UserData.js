@@ -9,13 +9,15 @@ function UserData({userData}) {
   
   <div className="stat bg-white ">
     
-    {userData.points && (
+  
         <div>
           <div className="stat-title font-bold text-purple-500">Points</div>
+          {userData.points && (
           <div className="stat-value">{userData.points}</div>
+        )}
           <div className="stat-desc text-black">This Month</div>
         </div>
-      )}
+
 
   </div>
   
