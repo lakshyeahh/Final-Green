@@ -14,11 +14,9 @@ import http from 'http'
 dotenv.config();
 app.use(cors(
   {
-<<<<<<< HEAD
+
       origin: ["http://localhost:3000"],
-=======
-      origin:  ["http://localhost:3000"],
->>>>>>> 02498a09f468381e0a3543a5984cb09cd56936e5
+
       credentials: true
   }
 ));
