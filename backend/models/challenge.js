@@ -12,7 +12,7 @@ const participantDetailsSchema = new mongoose.Schema({
   details: [{
     stepNumber: { type: Number, required: true },
     inputGiven: { type: mongoose.Schema.Types.Mixed }, // Mixed type for flexibility in input content
-    verified: { type: Boolean, default: true }
+    verified: { type: Boolean, default: false }
   }]
 });
 

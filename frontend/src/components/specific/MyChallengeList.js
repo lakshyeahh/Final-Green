@@ -71,24 +71,27 @@ function MyChallengeList({userData}) {
   }, [userData]);
 
   useEffect(() => {
-    if (!userData || !userData.completedChallenges) {
-      setLoading(false);
-      return;
-    }
-
     const fetchCompletedChallenges = async () => {
       try {
-        const challengeDetails = await Promise.all(
-          userData.completedChallenges.map(async (completedChallenge) => {
-            const response = await fetch(`${process.env.REACT_APP_URL}/api/challenges/${completedChallenge.challenge}`);
-            if (!response.ok) {
-              throw new Error('Failed to fetch challenge details');
-            }
-            const challengeData = await response.json();
-            return challengeData;
-          })
-        );
-        setCompletedChallenges(challengeDetails);
+        if (!token) {
+          alert("Login First!");
+          throw new Error('Access token not found');
+        }
+
+        const response = await fetch(`${process.env.REACT_APP_URL}/api/challenges/complete`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        if (!response.ok) {
+          throw new Error('Failed to fetch user data');
+        }
+
+        const data = await response.json();
+
+        setCompletedChallenges(data);
+
         setLoading(false);
       } catch (error) {
         setError(error.message);
@@ -98,6 +101,7 @@ function MyChallengeList({userData}) {
 
     fetchCompletedChallenges();
   }, [userData]);
+
 
   if (loading) {
     return <p>Loading...</p>;
@@ -113,38 +117,40 @@ function MyChallengeList({userData}) {
   <div class="  py-20 mx-auto">
   <h2 className='mb-10 text-xl md:text-2xl font-medium md:font-bold '>Active Challenges</h2>
     <div class="w-full mx-auto overflow-auto">
-    {challengeDetails && challengeDetails.map((one, index) => (
-      <table class="table-auto w-full text-left whitespace-no-wrap">
-        <thead>
-          <tr>
-            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-green-100 rounded-tl rounded-bl">Challenge</th>
-            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-green-100">Points</th>
-            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-green-100">End Date</th>
-            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-green-100">Complete</th>
-            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-green-100">Progress</th>
-          
-          </tr>
-        </thead>
-        <tbody>
-    
-        {one && one.challenge && (
-           <tr key={one.challenge._id}>
-            <td class="px-4 py-3">{one.challenge.title}</td>
-            <td class="px-4 py-3"> {one.challenge.points}</td>
-            <td class="px-4 py-3">{new Date(one.challenge.endDate).toLocaleDateString()}</td>
+    <div>
+  <table className="table-auto w-full text-left whitespace-no-wrap">
+    <thead>
+      <tr>
+        <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-green-100 rounded-tl rounded-bl">Challenge</th>
+        <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-green-100">Points</th>
+        <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-green-100">End Date</th>
+        <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-green-100">Complete</th>
+        <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-green-100">Progress</th>
+      </tr>
+    </thead>
+    <tbody>
+      {challengeDetails && challengeDetails.map((one, index) => (
+        one && one.challenge && (
+          <tr key={one.challenge._id}>
+            <td className="px-4 py-3">{one.challenge.title}</td>
+            <td className="px-4 py-3">{one.challenge.points}</td>
+            <td className="px-4 py-3">{new Date(one.challenge.endDate).toLocaleDateString()}</td>
             <td className="px-4 py-3 text-lg text-gray-900">
-                <progress className="progress progress-accent w-20" value={one.progress} max={4}></progress>
-              </td>
-  
-            <td class="px-4 py-3 text-lg text-gray-900">                <Link to={`/submit/${one.challenge.id}`}>
-         
-         <a className="hover:bg-gray-200 px-5 py-2 rounded-xl">Details</a>
-         </Link></td>
+              <progress className="progress progress-accent w-20" value={one.progress + 1} max={4}></progress>
+            </td>
+            <td className="px-4 py-3 text-lg text-gray-900">
+              <Link to={`/submit/${one.challenge.id}`}>
+                <a className="hover:bg-gray-200 px-5 py-2 rounded-xl">Details</a>
+              </Link>
+            </td>
           </tr>
-                )}
-        </tbody>
-      </table>
-                 ))}
+        )
+      ))}
+    </tbody>
+  </table>
+</div>
+
+
     </div>
     
   </div>
@@ -172,7 +178,7 @@ function MyChallengeList({userData}) {
         </thead>
         <tbody>
           {completedChallenges.map((challenge, index) => (
-            <tr key={challenge._id}>
+            <tr key={challenge.id}>
               <td className="px-4 py-3">{challenge.title}</td>
               <td className="px-4 py-3">{challenge.points}</td>
               <td className="px-4 py-3">{new Date(challenge.endDate).toLocaleDateString()}</td>

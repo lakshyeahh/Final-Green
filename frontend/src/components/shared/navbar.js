@@ -9,7 +9,9 @@ import Background from '../../Media/background.png';
 import { Link } from 'react-router-dom'
 
 const NavigationMenuDemo = ({ userData}) => {
+  
   const token = localStorage.getItem('accessToken');
+  
   
   const logout = async () => {
     try {
@@ -46,6 +48,8 @@ const NavigationMenuDemo = ({ userData}) => {
       console.error('Error:', error);
     }
   };
+
+  const isAdmin = userData && userData.role === 'admin';
 
   return (
     <div >
@@ -172,7 +176,13 @@ const NavigationMenuDemo = ({ userData}) => {
       )}
 
               </NavigationMenu.Item>
-
+              {isAdmin && (
+      <NavigationMenu.Item className='NavigationMenuLink ml-20'>
+        <Link to='/admin'>
+          admin
+        </Link>
+      </NavigationMenu.Item>
+    )}
           <NavigationMenu.Indicator className="NavigationMenuIndicator">
             <div className="Arrow" />
           </NavigationMenu.Indicator>

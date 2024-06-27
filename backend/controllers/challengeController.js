@@ -3,16 +3,16 @@ import User from '../models/user.js';
 
 // List all challenges
 export const listChallenges = async (req, res) => {
-    try {
-        const challenges = await Challenge.find();
-        res.status(200).json(challenges);
-    } catch (error) {
-        res.status(500).json({ message: 'Error fetching challenges', error });
-    }
+  try {
+    const challenges = await Challenge.find();
+    res.status(200).json(challenges);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching challenges', error });
+  }
 };
 
 // Create a new challenge
-export const createChallenge =  async (req, res) => {
+export const createChallenge = async (req, res) => {
   try {
     const {
       category,
@@ -53,18 +53,88 @@ export const createChallenge =  async (req, res) => {
 
 // Get details of a specific challenge
 export const getChallengeDetails = async (req, res) => {
-    try {
-        const { challengeId } = req.params;
-        const challenge = await Challenge.findById(challengeId);
-        if (!challenge) {
-            return res.status(404).json({ message: 'Challenge not found' });
-        }
-        res.status(200).json(challenge);
-    } catch (error) {
-        res.status(500).json({ message: 'Error fetching challenge details', error });
+  try {
+    const { challengeId } = req.params;
+    const challenge = await Challenge.findById(challengeId);
+    if (!challenge) {
+      return res.status(404).json({ message: 'Challenge not found' });
     }
+    res.status(200).json(challenge);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching challenge details', error });
+  }
 };
+export const verifyStep = async (req, res) => {
+  try {
+    const { challengeId } = req.params;
+    const { stepNumber, userId } = req.body;
 
+    // Find the challenge by ID
+    const challenge = await Challenge.findById(challengeId);
+    if (!challenge) {
+      return res.status(404).json({ message: 'Challenge not found' });
+    }
+
+    // Find the participant in the challenge
+    const participant = challenge.participants.find(participant => participant.userId.toString() === userId.toString());
+    if (!participant) {
+      return res.status(404).send('User is not a participant in this challenge');
+    }
+
+    // Find the step within the participant's details
+    const step = participant.details.find(step => step.stepNumber === stepNumber);
+    if (!step) {
+      return res.status(404).send(`Step ${stepNumber} not found for the user`);
+    }
+
+    // Verify the step
+    step.verified = true;
+
+    // Check if this is the last step in the challenge
+    
+    if (stepNumber === 3) {
+      // If this is the last step, add points to the user and move challenge to completedChallenges
+      const user = await User.findByIdAndUpdate(
+        userId,
+        {
+          $pull: {
+            activeChallenges: { challenge: challengeId }
+          },
+          $addToSet: {
+            completedChallenges: challengeId
+          },
+          $inc: { points: challenge.points }
+        },
+        { new: true }
+      );
+
+      if (!user) {
+        return res.status(404).send('User not found');
+      }
+    }
+
+    // Save changes to challenge and participant
+    await challenge.save();
+
+    // Remove user from participants if this is the last step
+    if (stepNumber === 3) {
+      await Challenge.findByIdAndUpdate(
+        challengeId,
+        {
+          $pull: {
+            participants: { userId: userId }
+          }
+        }
+      );
+    }
+
+    // Return the updated challenge
+    res.status(200).json(challenge);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error verifying step', error });
+  }
+};
 // Join a challenge
 export const joinChallenge = async (req, res) => {
   try {
@@ -86,14 +156,14 @@ export const joinChallenge = async (req, res) => {
 
     // Check if the challenge is already in the user's list of active challenges
     const isChallengeAlreadyInUser = user.activeChallenges.some(ac => ac.challenge.toString() === challengeId.toString());
-    
+
     let message = '';
-    
+
     // Check conditions and set appropriate messages
     if (isUserAlreadyParticipant) {
       message = 'You are already a participant in this challenge.';
     }
-    
+
 
     if (!isUserAlreadyParticipant) {
       try {
@@ -101,7 +171,7 @@ export const joinChallenge = async (req, res) => {
         challenge.participants.push({ userId: userId });
         message: 'Successfully joined the challenge';
         await challenge.save();
-     
+
 
       } catch (error) {
         // Handle error saving the challenge or any other error
@@ -182,6 +252,55 @@ export const getActiveChallengesForUser = async (req, res) => {
   }
 };
 
+export const getCompletedChallenges = async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    // Validate userId - Assuming user ID is valid if you're here
+
+    // Find the user by ID
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+
+    // Extract the active challenges
+    const completeChallengesPromises = user.completedChallenges.map(async (ac) => {
+      // Find the challenge by ID
+      const challenge = await Challenge.findById(ac)
+        .select('category title description startDate endDate  points participants');
+
+      if (!challenge) {
+        return null; // If challenge not found, return null
+      }
+
+      // Find participant details for the user within the challenge
+     
+
+      return {
+     
+          id: challenge._id,
+          category: challenge.category,
+          title: challenge.title,
+          description: challenge.description,
+          startDate: challenge.startDate,
+          endDate: challenge.endDate,
+   
+          points: challenge.points
+
+      };
+    });
+
+    // Resolve all promises and filter out null results
+    const activeChallenges = (await Promise.all(completeChallengesPromises)).filter(ac => ac !== null);
+
+    res.send(activeChallenges);
+  } catch (error) {
+    console.error('Error fetching active challenges:', error);
+    res.status(500).send('Internal server error');
+  }
+};
+
 
 
 export const getChallengeDetailsForUser = async (req, res) => {
@@ -218,7 +337,7 @@ export const getChallengeDetailsForUser = async (req, res) => {
       steps: challenge.steps,
       participantDetails: participant.details,
       verifiedCount
-   // Include only participant details for the user
+      // Include only participant details for the user
     };
 
     res.send(challengeDetails);
@@ -284,7 +403,7 @@ export const submitChallengeInput = async (req, res) => {
   }
 };
 
-  
+
 
 export const completeChallenge = async (req, res) => {
   try {
@@ -293,8 +412,8 @@ export const completeChallenge = async (req, res) => {
 
     // Find the user by ID and update activeChallenges and completedChallenges
     const user = await User.findByIdAndUpdate(userId,
-      { 
-        $pull: { 
+      {
+        $pull: {
           activeChallenges: { challenge: challengeId } // Remove challenge from activeChallenges
         },
         $addToSet: {
@@ -311,7 +430,7 @@ export const completeChallenge = async (req, res) => {
 
     // Find the challenge by ID and remove user from participants
     const challenge = await Challenge.findByIdAndUpdate(challengeId,
-      { 
+      {
         $pull: {
           participants: { userId: userId } // Remove user from participants
         }
@@ -330,22 +449,22 @@ export const completeChallenge = async (req, res) => {
 };
 
 export const getUserChallenges = async (req, res) => {
-    try {
-        const userId = req.user._id;
+  try {
+    const userId = req.user._id;
 
-        // Ensure userId is a string if it is an ObjectId
-        const userObjectId = mongoose.Types.ObjectId(userId);
+    // Ensure userId is a string if it is an ObjectId
+    const userObjectId = mongoose.Types.ObjectId(userId);
 
 
-        // Fetch challenges where the user is a participant
-        const userChallenges = await Challenge.find({ participants: userObjectId });
+    // Fetch challenges where the user is a participant
+    const userChallenges = await Challenge.find({ participants: userObjectId });
 
-        if (userChallenges.length === 0) {
-            return res.status(404).json({ message: 'No challenges found for this user' });
-        }
-
-        res.status(200).json(userChallenges);
-    } catch (error) {
-        res.status(500).json({ message: 'Error fetching user challenges', error });
+    if (userChallenges.length === 0) {
+      return res.status(404).json({ message: 'No challenges found for this user' });
     }
+
+    res.status(200).json(userChallenges);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching user challenges', error });
+  }
 };
