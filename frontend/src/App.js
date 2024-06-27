@@ -18,6 +18,7 @@ import Forum from './pages/Forum';
 import ProtectedRoute from './components/shared/protectedRoute';
 import Submit from './pages/Submit';
 import ChanllengeDetails from './pages/ChanllengeDetails';
+import Admin from './pages/admin';
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
             <Route path="/forum" element={<ProtectedRoute element={Forum} />} />
             <Route path="/submit" element={<ProtectedRoute element={Submit} />} />
             <Route path="/submit/:challengeId" element={<ProtectedRoute element={ChanllengeDetails} />} />
+            <Route path="/admin" element={<ProtectedRoute element={Admin} />} />
           </Routes>
         </div>
       </BrowserRouter>

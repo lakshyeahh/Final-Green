@@ -16,9 +16,9 @@ function UserData({userData}) {
         <div>
           <div className="stat-title font-bold text-purple-500">Points</div>
 
-          <div className="stat-value">{userData.points}</div>
+          <div className="stat-value text-black">{userData.points}</div>
        
-          <div className="stat-desc text-black">All Time</div>
+          <div className="stat-desc text-gray-400">All Time</div>
         </div>
 
 
@@ -30,8 +30,8 @@ function UserData({userData}) {
       
     </div>
     <div className="stat-title font-bold text-blue-500">Rank</div>
-    <div className="stat-value">{userData.rank}</div>
-    <div className="stat-desc text-black">↗︎ 22%</div>
+    <div className="stat-value text-black">{userData.rank}</div>
+    <div className="stat-desc text-gray">↗︎ 22%</div>
   </div>
   
   <div className="stat bg-orange-50 border-r-2 border-yellow-200">
