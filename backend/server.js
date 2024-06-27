@@ -16,8 +16,12 @@ app.use(cors(
   {
 
 
+<<<<<<< HEAD
 
     origin:  [process.env.ALLOWED_ORIGIN],
+=======
+      origin:  [process.env.ALLOWED_ORIGIN],
+>>>>>>> f0b473e39d9cfcbd4f912781b620dd4e34876102
 
 
 
