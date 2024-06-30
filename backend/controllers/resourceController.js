@@ -12,9 +12,9 @@ export const listResources = async (req, res) => {
 
 // Add a new resource
 export const addResource = async (req, res) => {
-  const { title, description, url, type } = req.body;
+  const { title, description, url, type, category, authorName, authorPosition } = req.body;
   try {
-    const newResource = new Resource({ title, description, url, type });
+    const newResource = new Resource({ title, description, url, type, category, authorName, authorPosition });
     await newResource.save();
     res.status(201).json(newResource);
   } catch (error) {

@@ -20,6 +20,9 @@ import img10 from '../Media/Image10.png';
 import DownBar from '../components/shared/DownBar';
 import { ToastContainer, toast } from 'react-toastify';
 import logo from '../Media/logo.png'
+import Reward from '../components/specific/Reward';
+import poster from '../Media/poster.png'
+import './Challenge.css';
 
 
 const drawerWidth = 240;
@@ -36,6 +39,7 @@ function Challenge() {
     const token = localStorage.getItem('accessToken');
     const [filteredChallenges, setFilteredChallenges] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [showModal, setShowModal] = useState(true);
 
     useEffect(() => {
       const fetchMeData = async () => {
@@ -58,7 +62,7 @@ function Challenge() {
           }
   
           const data = await response.json();
-          setUserData(data);
+          setUserData(data.user);
           setTimeout(() => {
             setLoading(false);
           }, 500);
@@ -89,6 +93,7 @@ function Challenge() {
     
             const data = await response.json();
             setChallenges(data);
+            
           } catch (error) {
             
           }
@@ -117,9 +122,6 @@ function Challenge() {
 
       const handleJoinChallenge = async (challengeId) => {
         try {
-          
-         
-  
           const response = await fetch(`${process.env.REACT_APP_URL}/api/challenges/${challengeId}/join`, {
             method: 'POST',
             headers: {
@@ -163,7 +165,7 @@ function Challenge() {
       </div>
     );
   }
-  
+
   return (
 
 
@@ -177,8 +179,34 @@ function Challenge() {
   </aside>
   <section className="w-full px-3 md:px-10 py-5 md:py-10">
   <ToastContainer />
+  
   <Box className=' '>
-        
+  {showModal && (
+        <>
+          <div className="modal-overlay"></div>
+          <dialog id='reward' className="modal" open>
+            <div className="modal-box bg-white relative z-20 p-4">
+              <form method="dialog">
+                <button
+                  className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                  onClick={() => setShowModal(false)}
+                >
+                  ✕
+                </button>
+              </form>
+              <img src={poster} alt="Reward Poster" className="mb-4" />
+              <div className="flex justify-center mt-4">
+                <a href={poster} download="reward-poster.jpg" className="btn btn-secondary">
+                  Download Image
+                </a>
+              </div>
+            </div>
+          </dialog>
+        </>
+      )}
+  {/* <dialog id='reward' className="modal w-full -p-4"><div class="modal-box  text-gray-600 body-font bg-white">
+  <img src={poster}></img>
+  </div></dialog> */}
         <div className=' bg-gradient-to-tr from-teal-300 to-lime-300 p-2 rounded-2xl' >
           <div className=' bg-white to-pink-300 p-4 rounded-2xl'>
 

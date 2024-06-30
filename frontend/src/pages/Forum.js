@@ -8,12 +8,15 @@ import Logo from '../Media/logo.png';
 import { useState, useEffect } from 'react';
 import DownBar from '../components/shared/DownBar'
 import logo from '../Media/logo.png'
+import './Forum.css'
 
 function Forum() {
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState(null);
   const token = localStorage.getItem('accessToken');
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [showOverlay, setShowOverlay] = useState(true);
+  const [posts, setPosts] = useState(null);
 
   useEffect(() => {
     const fetchMeData = async () => {
@@ -36,16 +39,48 @@ function Forum() {
         }
 
         const data = await response.json();
-        setUserData(data);
-        setTimeout(() => {
-          setLoading(false);
-        }, 500);
+        setUserData(data.user);
+      
+          
+          setTimeout(() => {
+            setLoading(false);
+            setShowOverlay(false);
+          }, 5000); 
+        
       } catch (error) {
         setError(error.message);
       }
     };
 
     fetchMeData();
+  }, []);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+
+
+        const response = await fetch(`${process.env.REACT_APP_URL}/api/social/forums`, {
+          method: 'GET',
+          headers: {
+
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch user data');
+        }
+
+        const data = await response.json();
+        setPosts(data);
+
+        
+      } catch (error) {
+        setError(error.message);
+      }
+    };
+
+    fetchPosts();
   }, []);
 
   if (loading) {
@@ -60,7 +95,17 @@ function Forum() {
 
   
   return (
-
+<>
+{showOverlay && (
+        <div id="forum-animation-overlay">
+          <a className="flex order-first lg:order-none lg:w-1/5 title-font font-medium items-center text-white lg:items-center lg:justify-center mb-4 md:mb-0">
+  <img className='h-10' src={pec} alt="Logo" />
+  <span className="ml-3 text-xl xl:block lg:hidden font-bold">X</span>
+  <div className='ml-2 mb-2 logo-text' style={{ fontFamily: '"Abril Fatface", serif', fontWeight: 400, fontSize: '40px' }}>Green</div>
+  <span class="ml-3 text-3xl font-light xl:block lg:hidden">Forum</span>
+</a>
+        </div>
+      )}
     <div className="flex flex-col min-h-screen">
     <header>
       <NavigationMenuDemo userData={userData} />
@@ -148,33 +193,32 @@ function Forum() {
 
 
 <section className="text-gray-600 body-font p-6 w-full md:w-2/3 h-2/3 items-left">
-<h1 className='font-bold text-3xl border-b '>Recent Posts</h1>
+<section class="text-gray-600 body-font overflow-hidden">
+  <div class=" px-5 py-24 mx-auto">
+    <div class="flex flex-wrap -m-12">
+    {posts.map(post => (
+      <div class="p-12 md:w-1/2 flex flex-col items-start">
+        <span class="inline-block py-1 px-2 rounded bg-indigo-50 text-indigo-500 text-xs font-medium tracking-widest">{post.confessionCategory}</span>
+        <h2 class="sm:text-3xl text-2xl title-font font-medium text-gray-900 mt-4 mb-4">{post.confessionTitle}</h2>
+        <p class="leading-relaxed mb-8">{post.confessionText}</p>
+        <div class="flex items-center flex-wrap pb-4 mb-4 border-b-2 border-gray-100 mt-auto w-full">
+         
+         
+         
+        </div>
+        <a class="inline-flex items-center">
 
-  <div class=" flex flex-wrap px-10 py-8 md:py-2 mx-auto my-5 items-center bg-indigo-950 rounded-xl border-2 border-blue-400">
-    <div class="md:w-1/2 md:pr-12 md:py-8 md:border-r md:border-b-0 mb-10 md:mb-0 pb-10 border-b border-gray-200">
-      <h1 class="sm:text-xl text-2xl font-medium title-font mb-2 text-white">Pitchfork Kickstarter Taxidermy</h1>
-      <p class="leading-relaxed text-base text-gray-400 text-sm">Locavore cardigan small batch roof party blue bottle blog meggings sartorial jean shorts kickstarter migas sriracha church-key synth succulents. Actually taiyaki neutra, distillery gastropub pok pok ugh.</p>
-  
-    </div>
-    <div class="flex flex-col md:w-1/2 md:pl-12">
-      <h2 class="title-font font-semibold text-blue-300 tracking-wider text-sm mb-3">CATEGORIES</h2>
-      <nav class="flex flex-wrap list-none  -mb-1">
-        <li class="lg:w-1/3 mb-1 w-1/2"> 
-          <a class="font-bold text-red-100 hover:text-gray-100 underline decoration-solid">First Link</a>
-        </li>
-        <li class="lg:w-1/3 mb-1 w-1/2">
-          <a class="font-bold text-red-100 hover:text-gray-100 underline decoration-solid">Second Link</a>
-        </li>
-        <li class="lg:w-1/3 mb-1 w-1/2">
-          <a class="font-bold text-red-100 hover:text-gray-100 underline decoration-solid">Third Link</a>
-        </li>
-        <li class="lg:w-1/3 mb-1 w-1/2">
-          <a class="font-bold text-red-100 hover:text-gray-100 underline decoration-solid">Fourth Link</a>
-        </li>
-     
-      </nav>
+          <span class="flex-grow flex flex-col pl-4">
+            <span class="title-font font-medium text-gray-900">Anonymous..</span>
+            <span class="text-gray-400 text-xs tracking-widest mt-0.5">email at verma.lakshya071@gmail.com for any response.. </span>
+          </span>
+        </a>
+      </div>
+    ))}
     </div>
   </div>
+</section>
+
 
 </section>
 <section className="text-gray-600 flex-col body-font w-full md:w-1/3 h-2/3">
@@ -220,7 +264,7 @@ function Forum() {
       <DownBar />
     </div>
   </div>
-  
+  </>
   )
 }
 

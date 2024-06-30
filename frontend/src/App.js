@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 // pages & components
 import Login from './pages/login';
@@ -19,14 +19,17 @@ import ProtectedRoute from './components/shared/protectedRoute';
 import Submit from './pages/Submit';
 import ChanllengeDetails from './pages/ChanllengeDetails';
 import Admin from './pages/admin';
+import Secret from './pages/Secret';
+
 
 function App() {
+  const accessToken = localStorage.getItem('accessToken');
   return (
     <div className="App">
       <BrowserRouter>
         <div className="pages">
           <Routes>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/" element={accessToken ? <Navigate to="/dashboard" /> : <HomePage />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
             <Route path="/dashboard" element={<ProtectedRoute element={Dashboard} />} />
@@ -41,6 +44,7 @@ function App() {
             <Route path="/submit" element={<ProtectedRoute element={Submit} />} />
             <Route path="/submit/:challengeId" element={<ProtectedRoute element={ChanllengeDetails} />} />
             <Route path="/admin" element={<ProtectedRoute element={Admin} />} />
+            <Route path="/create-post/:secret" element={<ProtectedRoute element={Secret} />} />
           </Routes>
         </div>
       </BrowserRouter>

@@ -9,6 +9,10 @@ import bkg from '../Media/background.png';
 import Sidebar from '../components/shared/Sidebar';
 import DownBar from '../components/shared/DownBar';
 import logo from '../Media/logo.png'
+import img1 from '../Media/user1.png'
+import img2 from '../Media/user2.png'
+import img3 from '../Media/user3.png'
+import img4 from '../Media/user4.png'
 
 
 const drawerWidth = 240;
@@ -65,7 +69,7 @@ function Challenge() {
             
            
     
-            const response = await fetch('/api/education/resources', {
+            const response = await fetch(`${process.env.REACT_APP_URL}/api/education/resources`, {
               method: 'GET',
               headers: {
                 'Content': `application/json`
@@ -102,6 +106,15 @@ function Challenge() {
       }
     
 
+      const images = [
+
+        img1,
+        img2,
+        img3,
+        img4,
+    
+        // Add more images if needed
+      ];
       
   return (
   
@@ -169,16 +182,16 @@ Check out the exciting challenges below and start your journey towards personal 
 </div>
 </header>
     
-
 <section class="text-gray-600 body-font overflow-hidden">
+
 <div class=" py-24 mx-auto">
 <div class="flex flex-wrap  gap-6">
 {challenges.map((challenge, index) => (
- <div key={index} class="p-8 md:w-[calc(50%-1.5rem)] flex flex-col items-start bg-gradient-to-br from-green-50 via-green-100 
- to-gray-50 border-2 border-blue-100 rounded-lg shadow-lg ease-in-out duration-300 hover:scale-105">
+ <div key={index} class="p-8 md:w-[calc(50%-1.5rem)] flex flex-col items-start 
+ border-2 border-blue-200 rounded-lg shadow-lg ">
 
   
-  <span class="inline-block py-1 px-2 rounded text-fuchsia-800 bg-fuchsia-300 text-xs font-medium tracking-widest">{challenge.type}</span>
+  <span class="inline-block py-1 px-2 rounded text-sky-800 bg-sky-300 text-xs font-medium tracking-widest">{challenge.type}</span>
   <h2 class="sm:text-3xl text-2xl title-font font-medium text-gray-900 mt-4 mb-4">{challenge.title}</h2>
   <p class="leading-relaxed mb-8">{challenge.description}</p>
   <div class="flex items-center flex-wrap pb-4 mb-4 border-b-4 border-emerald-200 mt-auto w-full">
@@ -201,10 +214,10 @@ Check out the exciting challenges below and start your journey towards personal 
     </span>
   </div>
   <a class="inline-flex items-center">
-    <img alt="blog" src="https://dummyimage.com/104x104" class="w-12 h-12 rounded-full flex-shrink-0 object-cover object-center" /  >
+    <img alt="blog" src={images[index % images.length]}  class="w-12 h-12 rounded-full flex-shrink-0 object-cover object-center" /  >
     <span class="flex-grow flex flex-col pl-4">
-      <span class="title-font font-medium text-gray-900">Holden Caulfield</span>
-      <span class="text-gray-400 text-xs tracking-widest mt-0.5">UI DEVELOPER</span>
+      <span class="title-font font-medium text-gray-900">{challenge.authorName}</span>
+      <span class="text-gray-400 text-xs tracking-widest mt-0.5">{challenge.authorPosition}</span>
     </span>
   </a>
 </div>

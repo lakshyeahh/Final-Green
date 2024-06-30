@@ -47,7 +47,7 @@ function Leaderboard() {
 
         const data = await response.json();
        
-        setUserData(data);
+        setUserData(data.user);
         
        
        
@@ -91,7 +91,8 @@ useEffect(() => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
+      <div className="flex justify-center items-center min-h-screen flex-col">
+        <img src={logo} className="h-16 mb-4" alt="Logo" />
         <span className="loading loading-dots loading-lg text-green-300 bg-green-300"></span>
       </div>
     );

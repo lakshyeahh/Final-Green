@@ -2,10 +2,13 @@ import React, { useEffect, useState } from 'react'
 import CreateChallengeForm from '../components/specific/AdminCreate';
 import { ToastContainer, toast } from 'react-toastify';
 import { json } from 'react-router-dom';
+import logo from '../Media/logo.png'
 
 function Admin() {
     const [challenges, setChallenges] = useState([]);
     const [error, setError] = useState(null);
+    const [ranking, setRanking] = useState([null]);
+    const [loading, setLoading] = useState(true);
 
     const fetchChallenges = async () => {
         try {
@@ -52,6 +55,52 @@ function Admin() {
       
       };
 
+      useEffect(() => {
+        const fetchLeaderboard = async () => {
+          try {
+            const response = await fetch(`${process.env.REACT_APP_URL}/api/leaderboard`, {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            });
+    
+            if (!response.ok) {
+              throw new Error('Failed to fetch user data');
+            }
+    
+            const data = await response.json();
+            setRanking(data); // Assuming data is an array of leaderboard entries
+            setTimeout(() => {
+              setLoading(false);
+            }, 500);
+      
+          } catch (error) {
+            setError(error.message);
+
+          }
+        };
+    
+        fetchLeaderboard();
+      }, []); 
+
+      const handleReward1 = async () => {
+        try{
+          const 
+
+        }catch (error){
+
+        }
+      };
+
+      if (loading) {
+        return (
+          <div className="flex justify-center items-center min-h-screen flex-col">
+            <img src={logo} className="h-16 mb-4" alt="Logo" />
+            <span className="loading loading-dots loading-lg text-green-300 bg-green-300"></span>
+          </div>
+        );
+      }
   return (
     <div>
         <section class="text-gray-600 body-font">
@@ -133,6 +182,67 @@ function Admin() {
   </div>
   <CreateChallengeForm/>
 </section>
+
+<section className="text-gray-600 body-font mb-9 overflow-auto">
+      <div className="px-5 py-10 mx-auto">
+        <div className="flex flex-wrap w-full mb-5 flex-col items-start text-left">
+          <h1 className="sm:text-2xl text-2xl font-bold title-font mb-2 text-gray-900 ">Ranking</h1>
+        </div>
+        <div className="lg:w-full w-full mx-auto overflow-auto">
+          <table className="table-auto w-full text-left whitespace-no-wrap">
+            <thead>
+              <tr>
+                <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-lime-100 rounded-tl rounded-bl">Rank</th>
+                <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-lime-100 rounded-tl rounded-bl">Name</th>
+                <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-lime-100">Points</th>
+                <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-lime-100">Reward1</th>
+                <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-lime-100">Reward2</th>
+                <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-lime-100">Reward3</th>
+                <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-lime-100">Reward4</th>
+              
+                
+              </tr>
+            </thead>
+            <tbody>
+              {ranking && ranking.map((user, index) => (
+                <tr key={index}>
+                  <td className="px-4 py-3">{index}</td> {/* Index + 4 because we are displaying from rank 4 */}
+                  <td className="px-4 py-3">{user.name}</td>
+                  <td className="px-4 py-3">{user.points}</td>
+                
+    <td className="px-4 py-3 text-lg text-gray-900">
+      <button className="btn btn-primary">Anonymous Confession</button>
+    </td>
+
+
+  {/* Show button if user points are greater than 1000 */}
+
+    <td className="px-4 py-3 text-lg text-gray-900">
+      <button className="btn btn-primary">Gift Voucher</button>
+    </td>
+ 
+
+  {/* Show button if user points are greater than 2000 */}
+  
+    <td className="px-4 py-3 text-lg text-gray-900">
+      <button className="btn btn-primary">Meet Up with Seniors</button>
+    </td>
+
+
+  {/* Show button if user points are greater than 2500 */}
+
+    <td className="px-4 py-3 text-lg text-gray-900">
+      <button className="btn btn-primary">Cute Surprise from Seniors</button>
+    </td>
+
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
 
     </div>
   )
