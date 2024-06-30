@@ -51,7 +51,7 @@ function Challenge() {
         }
 
         const data = await response.json();
-        setUserData(data);
+        setUserData(data.user);
         setTimeout(() => {
           setLoading(false);
         }, 500);

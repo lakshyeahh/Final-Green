@@ -16,9 +16,9 @@ function UserData({userData, position}) {
   <div>
 {userData && (
 
-<div className="stats-vetical w-full lg:stats shadow bg-gray-300 h-50 md:h-50 ">
+<div className="stats-vetical w-full lg:stats shadow bg-green-600 h-50 md:h-50 ">
 
-  <div className="stat bg-white ">
+  <div className="stat  bg-purple-300">
     
   
 
@@ -33,7 +33,7 @@ function UserData({userData, position}) {
   </div>
   
   
-  <div className="stat bg-white">
+  <div className="stat bg-blue-200">
     <div className="stat-figure text-secondary">
       
     </div>
@@ -42,7 +42,7 @@ function UserData({userData, position}) {
     <div className="stat-desc text-gray">↗︎ 22%</div>
   </div>
   
-  <div className="stat bg-white  flex flex-col ">
+  <div className="stat bg-orange-100  flex flex-col ">
   
     <div className="stat-title font-bold text-orange-500 mb-4 flex items-center">Badges <img src={point} className='w-7 '></img> <span className='text-gray-300 font-medium' >*hover over each to explore</span></div>
   <div className="flex flex-wrap justify-left w-full max-w-xl p-4 px-0 items-center">

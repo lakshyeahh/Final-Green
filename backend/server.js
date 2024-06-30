@@ -16,14 +16,9 @@ app.use(cors(
   {
 
 
-<<<<<<< HEAD
+
     origin:  'http://localhost:3000',
-=======
 
-      origin:  [process.env.ALLOWED_ORIGIN],
-
-
->>>>>>> 9a51640935d11063bf6cf149dadf48c28f4be4e2
 
       credentials: true
   }

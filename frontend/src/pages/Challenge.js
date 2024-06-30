@@ -32,7 +32,7 @@ const randomHashtags = [
 ];
 
 function Challenge() {
-    const [challenges, setChallenges] = useState([]);
+    const [challenges, setChallenges] = useState([null]);
     const [activeTab, setActiveTab] = useState('all');
     const [userData, setUserData] = useState(null);
     const [error, setError] = useState(null);
@@ -106,13 +106,13 @@ function Challenge() {
         let sortedChallenges = [...challenges];
         switch (activeTab) {
           case 'popular':
-            sortedChallenges.sort((a, b) => b.participants > a.participants);
+            sortedChallenges.sort((a, b) => b.participants - a.participants);
             break;
           case 'highPoints':
-            sortedChallenges.sort((a, b) => b.points > a.points);
+            sortedChallenges.sort((a, b) => b.points - a.points);
             break;
           case 'new':
-            sortedChallenges.sort((a, b) => new Date(b.startDate) > new Date(a.startDate));
+            sortedChallenges.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
             break;
           default:
             sortedChallenges = challenges;
@@ -276,10 +276,10 @@ Check out the exciting challenges below and start your journey towards personal 
 
 
               <Badge variant="solid" color={
-          challenge.category === 'leaf' ? 'teal' :
-          challenge.category === 'fuel' ? 'amber' :
-          challenge.category === 'drop' ? 'blue' :
-          challenge.category === 'clean' ? 'violet' :
+          challenge.category.toLowerCase() === 'leaf' ? 'teal' :
+          challenge.category.toLowerCase() === 'fuel' ? 'amber' :
+          challenge.category.toLowerCase() === 'drop' ? 'blue' :
+          challenge.category.toLowerCase() === 'clean' ? 'violet' :
           'gray' // Default to gray if category doesn't match known types
         } className='shadow-lg'>
           {challenge.category}

@@ -52,7 +52,7 @@ function Challenge() {
           }
   
           const data = await response.json();
-          setUserData(data);
+          setUserData(data.user);
           setTimeout(() => {
             setLoading(false);
           }, 500);
@@ -191,7 +191,20 @@ Check out the exciting challenges below and start your journey towards personal 
  border-2 border-blue-200 rounded-lg shadow-lg ">
 
   
-  <span class="inline-block py-1 px-2 rounded text-sky-800 bg-sky-300 text-xs font-medium tracking-widest">{challenge.type}</span>
+<div class="flex space-x-2">
+  <span class="inline-block py-1 px-2 rounded text-purple-800 bg-purple-300 text-xs font-medium tracking-widest">{challenge.type}</span>
+  <span 
+    class={`inline-block py-1 px-2 rounded text-xs font-medium tracking-widest ${
+      challenge.category.toLowerCase() === 'water' ? 'bg-sky-300 text-sky-800' :
+      challenge.category.toLowerCase() === 'clean' ? 'bg-gray-300 text-gray-800' :
+      challenge.category.toLowerCase() === 'leaf' ? 'bg-green-300 text-green-800' :
+      challenge.category.toLowerCase() === 'fuel' ? 'bg-yellow-300 text-yellow-800' :
+      'bg-gray-300 text-gray-800'
+    }`}>
+    {challenge.category}
+  </span>
+</div>
+
   <h2 class="sm:text-3xl text-2xl title-font font-medium text-gray-900 mt-4 mb-4">{challenge.title}</h2>
   <p class="leading-relaxed mb-8">{challenge.description}</p>
   <div class="flex items-center flex-wrap pb-4 mb-4 border-b-4 border-emerald-200 mt-auto w-full">

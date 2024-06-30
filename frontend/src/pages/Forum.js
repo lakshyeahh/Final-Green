@@ -196,7 +196,7 @@ function Forum() {
 <section class="text-gray-600 body-font overflow-hidden">
   <div class=" px-5 py-24 mx-auto">
     <div class="flex flex-wrap -m-12">
-    {posts.map(post => (
+    {posts && posts.map(post => (
       <div class="p-12 md:w-1/2 flex flex-col items-start">
         <span class="inline-block py-1 px-2 rounded bg-indigo-50 text-indigo-500 text-xs font-medium tracking-widest">{post.confessionCategory}</span>
         <h2 class="sm:text-3xl text-2xl title-font font-medium text-gray-900 mt-4 mb-4">{post.confessionTitle}</h2>

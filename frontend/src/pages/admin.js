@@ -84,15 +84,7 @@ function Admin() {
         fetchLeaderboard();
       }, []); 
 
-      const handleReward1 = async () => {
-        try{
-          const 
-
-        }catch (error){
-
-        }
-      };
-
+   
       if (loading) {
         return (
           <div className="flex justify-center items-center min-h-screen flex-col">
