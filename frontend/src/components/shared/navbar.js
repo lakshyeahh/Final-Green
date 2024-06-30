@@ -73,9 +73,9 @@ const NavigationMenuDemo = ({ userData}) => {
               <ul className="List one">
                 <li style={{ gridRow: 'span 3' }}>
                   <NavigationMenu.Link asChild>
-                    <a className="Callout" href="/">
+                    <Link className="Calloutt" to="/">
                       <div className="CalloutHeading">Explore Now</div>
-                    </a>
+                    </Link>
                   </NavigationMenu.Link>
                 </li>
                 <ListItem href="/challenges" title="Challenges">

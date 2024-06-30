@@ -23,6 +23,7 @@ function Dashboard() {
   const [error, setError] = useState(null);
   const token = localStorage.getItem('accessToken');
   const [loading, setLoading] = useState(true);
+  const [position, setPosition] = useState(null);
   
 
 
@@ -47,7 +48,9 @@ function Dashboard() {
         }
 
         const data = await response.json();
-        setUserData(data);
+        const { user, position } = data;
+        setUserData(user);
+        setPosition(position);
         setTimeout(() => {
           setLoading(false);
         }, 500);
@@ -114,7 +117,8 @@ function Dashboard() {
       <Sidebar userData={userData} />
     </aside>
     <section className="w-full px-3 md:px-10 py-2 md:py-10">
-      <UserData userData={userData} />
+      
+      <UserData userData={userData}  position={position}/>
       <MyChallengeList userData={userData} />
     </section>
   </div>

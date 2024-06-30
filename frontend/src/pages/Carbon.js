@@ -22,6 +22,7 @@ import Donut from '../components/shared/Donut';
 import Bar from '../components/shared/Bar';
 import DownBar from '../components/shared/DownBar';
 import logo from '../Media/logo.png'
+import leaf from '../Media/leaf3d.png'
 
 
 const drawerWidth = 240;
@@ -41,6 +42,7 @@ function Carbon() {
   const [error, setError] = useState(null);
   const token = localStorage.getItem('accessToken');
   const [loading, setLoading] = useState(true);
+  const [carbonAvailable, setCarbonAvailable] = useState(false);
 
   useEffect(() => {
     const fetchMeData = async () => {
@@ -63,7 +65,7 @@ function Carbon() {
         }
 
         const data = await response.json();
-        setUserData(data);
+        setUserData(data.user);
         setTimeout(() => {
           setLoading(false);
         }, 500);
@@ -154,6 +156,45 @@ function Carbon() {
         <img src={logo} className="h-16 mb-4" alt="Logo" />
         <span className="loading loading-dots loading-lg text-green-300 bg-green-300"></span>
       </div>
+    );
+  }
+
+  if(!carbonFootprint){
+    return(
+      
+    <div className="flex flex-col min-h-screen">
+    <header>
+      <NavigationMenuDemo userData={userData} />
+    </header>
+    <div className="flex flex-1">
+      <aside className="hidden lg:block w-1/8">
+        <Sidebar userData={userData} />
+      </aside>
+      <section className="w-full px-3 md:px-10 ">
+      <section class="bg-white  ">
+    <div class=" flex items-center min-h-screen px-6  mx-auto">
+        <div class="flex flex-col items-center max-w-sm mx-auto text-center">
+           <img src={leaf}></img>
+            <h1 class="mt-3 text-2xl font-semibold text-gray-800 md:text-3xl">Ooi! No Carbon Footprint Found</h1>
+            <p class="mt-4 text-gray-500 ">You have calculated your recent carbon footprint yet, Click on the button below to calculate it now ;)</p>
+
+            <div class="flex items-center w-full mt-6 justify-center sm:w-auto">
+        
+            <Link to='/carbon-footprint/new'>
+            <Button color='lime' className='hover:scale-105' > Calculate CF</Button>
+            </Link>
+            </div>
+        </div>
+    </div>
+</section>
+      </section>
+    </div>
+    <div className="md:hidden fixed bottom-0 w-full">
+      <DownBar />
+    </div>
+  </div>
+
+ 
     );
   }
 

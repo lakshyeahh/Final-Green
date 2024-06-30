@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 function DownBar() {
   return (
-<div className="btm-nav z-9 flex justify-around items-center">
+<div className="btm-nav z-9 flex justify-around items-center h-14" style={{boxShadow: '1px 1px 5px black'}}>
   <Link to='/submit'>
     <button className="text-accent flex flex-col items-center">
       <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">

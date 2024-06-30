@@ -95,7 +95,7 @@ function ChanllengeDetails() {
         }
 
         const data = await response.json();
-        setUserData(data);
+        setUserData(data.user);
       } catch (error) {
         setError(error.message);
       }

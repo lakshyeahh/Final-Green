@@ -213,7 +213,7 @@ p {
   font-weight: initial;
 }
 
-.Callout {
+.Calloutt {
   display: flex;
   justify-content: flex-end;
   flex-direction: column;
@@ -226,7 +226,7 @@ p {
   outline: none;
   user-select: none;
 }
-.Callout:focus {
+.Calloutt:focus {
   box-shadow: 0 0 0 2px var(--violet-7);
 }
 

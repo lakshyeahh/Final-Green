@@ -40,6 +40,10 @@
 
     "chart.js": "^3.9.1",
 
+    "flowbite": "^2.4.1",
+
+    "flowbite-react": "^0.10.1",
+
     "gsap": "^3.12.5",
 
     "leaflet": "^1.9.4",
